@@ -1,0 +1,87 @@
+/* font-family: 'Noto Sans KR', sans-serif; */
+@import url('https://fonts.googleapis.com/css2?family=Noto+Sans+KR:wght@100&display=swap');
+
+*{
+    font-family: 'Noto Sans KR', sans-serif;
+    padding: 0;
+    margin: 0;
+}
+
+.banner{
+    position: relative;
+    width: 100vw;
+    height: 100vh;
+    background-image: url('/DoShop/image/home_banner_wallpaper.jpg');
+    background-position: center;
+    background-size: cover;
+    z-index: 1;
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    flex-wrap: wrap;
+    flex-direction: column;
+}
+
+.banner .pannel{
+    position: absolute;
+    left: 0;
+    top: 0;
+    width: 100vw;
+    height: 100vh;
+    background-color: rgba(0, 0, 0, 0.7);
+    z-index: 10;
+}
+
+#banner_logo{
+    position: relative;
+    font-size: 7rem;
+    text-decoration: none;
+    color: white;
+    z-index: 100;
+    line-height: 1;
+    text-shadow: -2px 0 rgb(141, 154, 226), 0 2px rgb(141, 154, 226), 2px 0 rgb(141, 154, 226), 0 -2px rgb(141, 154, 226);
+}
+
+#wrap_search{
+    width: 80%;
+    max-width: 380px;
+    height: 42px;
+    margin-top: 100px;
+    padding: 0 10px;
+    position: relative;
+    z-index: 100;
+    display: flex;
+    justify-content: space-between;
+    background-color: rgba(255, 255, 255, 1);
+    box-sizing: content-box;
+    border: solid 3px rgb(141, 154, 226);
+    border-radius: 10px;
+}
+
+#wrap_search input{
+    width: calc(100% - 60px);
+    height: 100%;
+    font-size: 1.1rem;
+    outline: none;
+    background-color: rgba(255, 255, 255, 0);
+    box-sizing: content-box;
+    border: none;
+}
+
+#wrap_search button{
+    width: 30px;
+    height: 100%;
+    font-size: 2rem;
+    background-image: url('/DoShop/image/search.png');
+    background-position: center;
+    background-repeat: no-repeat;
+    background-size: cover;
+    background-color: rgba(255, 255, 255, 0);
+    box-sizing: content-box;
+    border: none;
+}
+
+#wrap_search button:hover{
+    cursor: pointer;
+}
+

@@ -1,0 +1,221 @@
+@charset "UTF-8";
+
+#workspace{
+	padding: 15px;
+	overflow: auto"
+}
+
+#workspace .button_frame{
+	width: 70px;
+	height: 30px;
+	font-size: 0.9rem;
+	outline: none;
+	cursor: pointer;
+	background-color: rgba(255, 255, 255, 1);
+	border: solid 2px rgb(0, 0, 0);
+	border-radius: 5px;
+	color: black;
+	font-weight: 900;
+}
+
+#workspace .title{
+	font-size: 2rem;
+	margin-bottom: 20px;
+}
+
+#workspace fieldset{
+	padding: 10px;
+	margin-bottom: 20px;
+}
+
+#workspace fieldset legend{
+	font-weight: 900;
+}
+
+#workspace fieldset #wrap_management{
+	margin-top: 10px;
+	display: flex;
+}
+
+#workspace fieldset .fieldset_button_frame{
+	width: 120px;
+	height: 30px;
+	font-size: 0.9rem;
+	outline: none;
+	cursor: pointer;
+	background-color: rgba(255, 255, 255, 1);
+	border: solid 2px rgb(0, 0, 0);
+	border-radius: 5px;
+	color: black;
+	font-weight: 900;
+}
+
+#workspace fieldset #target_email{
+	width: 200px;
+	display:flex;
+	justify-content: center;
+	align-items: center;
+	background-color: rgba(235, 235, 235, 1);
+	margin-right: 20px;
+}
+
+#workspace fieldset #current_authority{
+	width: 120px;
+	display:flex;
+	justify-content: center;
+	align-items: center;
+	background-color: rgba(235, 235, 235, 1);
+	margin-right: 20px;
+}
+
+#workspace fieldset #select_target{
+	margin-left: 3px;
+	margin-right: 10px;
+}
+
+#workspace fieldset hr{
+	margin: 10px 0;
+}
+
+#workspace fieldset #target_list{
+	width: 100%;
+	display: flex;
+	flex-wrap: wrap;
+}
+
+#workspace .wrap_target{
+	width: 30%;	
+	margin: 5px;
+	display: flex;
+	justify-content: space-around;
+	align-items: center;
+	border: solid 2px black;
+}
+
+#workspace .wrap_target .ele1{
+	font-weight: 900;
+}
+
+#workspace .wrap_target .ele2{
+	width: 10%;
+	background-color: rgba(0,0,0,1);
+	border: solid 1px black;
+	border-radius: 3px;
+	outline: none;
+	color: white;
+	cursor: pointer;
+	padding: 2px;
+}
+
+#workspace fieldset .right{
+	float: right;
+	margin-left: 5px;
+}
+
+#workspace .wrap{
+	width: 100%;
+	padding: 0 15%;
+}
+
+#workspace .wrap_button{
+	width: 100%;
+	display: flex;
+	margin-bottom: 2px;
+	justify-content: flex-end;
+}
+
+#workspace .wrap_button button{
+	margin: 0 2px;
+}
+
+#workspace .wrap_paging_search{
+	width: 100%;
+	margin: 10px 0;
+	display: flex;
+	flex-direction: column;
+	align-items: center;
+}
+
+#workspace .wrap_paging{
+	margin-bottom: 3px;
+	display: flex;
+}
+
+#workspace .wrap_paging button{
+	margin: 0 8px;
+	display: inline-block;
+	outline: none;
+	border: none;
+	background-color: rgba(255, 255, 255, 1);
+	cursor: pointer;
+	font-size: 1rem;
+	font-weight: 900;
+}
+
+#workspace .wrap_search{
+	display: flex;
+}
+
+#workspace .wrap_search select{
+	outline: none;
+}
+
+#workspace .wrap_search input{
+	padding: 2px;
+	outline: none;
+	margin: 0 3px;
+}
+
+#workspace #button_search{
+	width: 25px;
+    background-image: url('/DoShop/image/search.png');
+    background-position: center;
+    background-repeat: no-repeat;
+    background-size: cover;
+    background-color: rgba(255, 255, 255, 0);
+	outline: none;
+	border: solid 1px rgba(0, 0, 0, 1);
+	cursor: ponint;
+}
+
+#workspace table{
+	display: none;
+	width: 100%;
+	border-spacing: 0;
+	border-collapse: collapse;
+}
+
+#workspace table thead tr td{
+	padding: 5px 15px;
+	text-align: center;
+	background-color: black;
+	color: white;
+	border-spacing: 0;
+  	border: solid 1px gray;
+}
+
+#workspace table tbody tr{
+	user-select: none;
+}
+
+#workspace table tbody tr td{
+	padding: 5px 15px;
+	text-align: center;
+	border-spacing: 0;
+  	border: solid 1px black;
+}
+
+#workspace #message_table{
+	width: 100%;
+	display: flex;
+	justify-content: center;
+	align-items: center;
+}
+
+#workspace #button_rollback{
+	display: none;
+}
+
+#workspace #button_apply{
+	display: none;
+}

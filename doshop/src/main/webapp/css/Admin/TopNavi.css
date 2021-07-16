@@ -1,0 +1,50 @@
+@charset "UTF-8";
+
+#top_navi{
+    width: 100vw;
+    padding: 0 5px;
+    height: 60px;
+    background-color: black;
+    position: fixed;
+    z-index: 100;
+    border-bottom: solid 2px rgb(140, 154, 221);
+}
+
+#top_navi #admin_home_logo{
+    margin: 0 10px;
+    position: relative;
+    top: 50%;
+    float: left;
+    transform: translateY(-50%);
+    color: white;
+    text-decoration: none;
+    font-size: 1.5rem;
+}
+
+#top_navi #signout{
+    margin: 0 10px;
+    margin-right: 25px;
+    position: relative;
+    top: 50%;
+    float: right;
+    transform: translateY(-50%);
+    color: white;
+    text-decoration: none;
+    font-size: 1.3rem;
+	cursor: pointer;
+    background-color: rgba(0, 0, 0, 0);
+	outline: none;
+	border: none;
+}
+
+#top_navi #admin_info{
+    margin: 0 10px;
+    position: relative;
+    top: 50%;
+    float: right;
+    vertical-align: middle;
+    transform: translateY(-50%);
+    color: white;
+    text-decoration: none;
+    font-size: 1.3rem;
+}

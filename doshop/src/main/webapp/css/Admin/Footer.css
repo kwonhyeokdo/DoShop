@@ -1,0 +1,20 @@
+@charset "UTF-8";
+
+footer{
+    width: 100vw;
+    height: 50px;
+    position: relative;
+    left: 0;
+    top: 60px;
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    background-color: rgba(50, 50, 50, 1);
+    border-top: solid 2px rgb(140, 154, 221);
+}
+
+footer .footer_text{
+    display: block;
+    color: white;
+    text-decoration: none;
+}
