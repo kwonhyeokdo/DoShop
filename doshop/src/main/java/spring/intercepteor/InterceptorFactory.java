@@ -10,7 +10,7 @@ import spring.intercepteor.all.SigninSessionUpdate;
 
 @Component
 public class InterceptorFactory {
-	//실험
+	//실험2
 	@Autowired
 	SigninSessionUpdate signinSessionUpdate;
 	@Autowired
