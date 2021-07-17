@@ -31,11 +31,13 @@ public class WebMvcConfig implements WebMvcConfigurer{
 
 	@Override
 	public void addInterceptors(InterceptorRegistry registry) {
-		/*** 모든 페이지마다 SigninSession 갱신 ***/
+		/* 모든 페이지마다 SigninSession 갱신  */
 		registry.addInterceptor(interceptorFactory.getSigninSessionUpdate()).addPathPatterns("/**");
-		/**************************************/
+
+		/* autoSignin  */
+		registry.addInterceptor(interceptorFactory.getAutoSignin()).addPathPatterns("/**");
 		
-		/*** /Admin 페이지 authority에 따른 접근 설정 ***/
+		/* /Admin 페이지 authority에 따른 접근 설정 */
 		// 접근 가능 권한: 1, 2, 3
 		registry.addInterceptor(interceptorFactory.getEnterAdminPage(new ConditionForAdminEntry() {
 			@Override
@@ -59,6 +61,5 @@ public class WebMvcConfig implements WebMvcConfigurer{
 				return (authority >= 1 && authority <= 2) ? true : false;
 			}
 		})).addPathPatterns("/Admin/CategoryManagement/**");
-		/**************************************/
 	}
 }

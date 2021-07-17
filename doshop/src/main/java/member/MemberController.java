@@ -2,11 +2,14 @@ package member;
 
 import java.util.ArrayList;
 
+import javax.servlet.http.Cookie;
+import javax.servlet.http.HttpServletResponse;
 import javax.servlet.http.HttpSession;
 
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
+import org.springframework.web.bind.annotation.CookieValue;
 import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.bind.annotation.ModelAttribute;
 import org.springframework.web.bind.annotation.PostMapping;
@@ -16,7 +19,9 @@ import org.springframework.web.bind.annotation.ResponseBody;
 import org.springframework.web.servlet.mvc.support.RedirectAttributes;
 
 import database.vo.TemporaryMemberVO;
+import etc.aes.AES256;
 import member.signin.SigninService;
+import member.signin.SigninSession;
 import member.signup.MailAuthenticationService;
 import member.signup.PhoneAuthenticationService;
 import member.signup.TemporaryMemberService;
@@ -29,16 +34,35 @@ public class MemberController {
 	@Autowired
 	private SigninService signinService;
 	@Autowired
-	private PhoneAuthenticationService phoneAuthenticationService;
-	@Autowired
 	private TemporaryMemberService temporaryMemberService;
 	@Autowired
 	private MailAuthenticationService mailAuthenticationService;
 	@Autowired
-	private MemberService memberService;
+	HttpSession httpSession;
+	@Autowired
+	AES256 aes256;
 
 	@GetMapping("/Signin")
-	public String getSignin() {
+	public String getSignin(
+		@CookieValue(value="rememberEmail", required=false) Cookie rememberEmailCookie,
+		@CookieValue(value="autoSignin", required=false) Cookie autoSignin,
+		Model model
+	) {
+		if(rememberEmailCookie != null) {
+			try {
+			String email = rememberEmailCookie.getValue();
+			model.addAttribute("rememberEmail", aes256.decrypt(email));
+			}catch(Exception e) {
+				e.printStackTrace();
+			}
+		}
+		if(autoSignin != null) {
+			try {
+			model.addAttribute("autoSignin", autoSignin.getValue());
+			}catch(Exception e) {
+				e.printStackTrace();
+			}
+		}
 		return path + "/Signin";
 	}
 	
@@ -46,9 +70,22 @@ public class MemberController {
 	public String postSignin(
 		@RequestParam(value="inputEmail", required=false)String inputEmail,
 		@RequestParam(value="inputPassword", required=false)String inputPassword,
+		@RequestParam(value="checkRememberEmail", required=false)String checkRememberEmail,
+		@RequestParam(value="checkAutoSignin", required=false)String checkAutoSignin,
 		Model model
 	) {
 		if(signinService.signin(inputEmail, inputPassword)) {
+			if(Boolean.parseBoolean(checkRememberEmail)){
+				signinService.registRememberEmailCookie(inputEmail);
+			}else {
+				signinService.deleteRememberEmailCookie();
+			}
+
+			if(Boolean.parseBoolean(checkAutoSignin)) {
+				signinService.useAutoSigninCookie(inputEmail, inputPassword);
+			}else {
+				signinService.notUseAutoSigninCookie();
+			}
 			return "redirect:/";
 		}else {
 			String errorMessage = "가입하지 않은 아이디이거나, 잘못된 비밀번호입니다";
@@ -81,24 +118,6 @@ public class MemberController {
 		return path + "/Congratulations";
 	}
 	
-	@PostMapping("/send_phone_number")
-	@ResponseBody
-	public String sendPhomeNumber(Model model,
-		@RequestParam(value = "phone_number", required = false)String phoneNumber
-	) {
-	    phoneAuthenticationService.registPhoneAuthentication(phoneNumber);
-		return "" + PhoneAuthenticationService.AUTHENTICATION_TIME_SEC;
-	}
-	
-	@PostMapping("/send_authentication_number")
-	@ResponseBody
-	public Boolean sendAuthenticationNumber(Model model,
-		@RequestParam(value = "phone_number", required = false)String phoneNumber,
-		@RequestParam(value = "authentication_number", required = false)String authenticationNumber
-	) {
-		return phoneAuthenticationService.checkAuthenticationNumber(phoneNumber, authenticationNumber);
-	}
-	
 	@PostMapping("/send_member_information")
 	public String submitMemberInformation(RedirectAttributes redirectAttributes, TemporaryMemberVO temporaryMemberVO) {
 		ArrayList<String> errorList = temporaryMemberService.registTemporaryMember(temporaryMemberVO);
@@ -114,14 +133,6 @@ public class MemberController {
 		
 	}
 	
-	@PostMapping("/send_email")
-	@ResponseBody
-	public boolean sendEmail(
-		@RequestParam(value = "email", required = false)String email
-	) {
-		return temporaryMemberService.checkDuplicateEmail(email) && memberService.checkDuplicateEmail(email);
-	}
-	
 	@GetMapping("/authentication_mail")
 	public String sendEmailAuthentication(@RequestParam(value = "token", required = false)String token) {
 		try {
@@ -135,5 +146,12 @@ public class MemberController {
 			System.out.println("mailAuthenticationService 오류");
 			return "redirect:" + path + "/Signup";
 		}
-	}
+	}	
+	
+	@ResponseBody
+	@PostMapping("/Hi")
+	public String awef() {
+		System.out.println("asdf");
+		return "assdfa";
+	}	
 }

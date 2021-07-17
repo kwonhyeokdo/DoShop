@@ -17,8 +17,6 @@ import member.signin.SigninSession;
 public class EtcRestController {
 	@Autowired
 	EtcService pageService;
-	@Autowired
-	HttpSession httpSession;
 	
 	@PostMapping("/Etc/GetServerCategory")
 	public List<CategoryVO> postGetServerCateoryList(
@@ -26,10 +24,4 @@ public class EtcRestController {
 	){
 		return pageService.getCategoryListWithParentUrl(parentId);
 	}
-	
-	@PostMapping("/Etc/CheckSignin")
-	public SigninSession postCheckSignin(
-	){
-		return (SigninSession)httpSession.getAttribute("signinSession");
-	}	
 }

@@ -4,7 +4,7 @@
 <html>
 <head>
 	<meta charset="UTF-8">
-	<link rel="stylesheet" type="text/css" href="/DoShop/css/Page/NavAndMenu.css">
+	<link rel="stylesheet" type="text/css" href="/DoShop/css/Etc/NavAndMenu.css">
     <script src="https://ajax.googleapis.com/ajax/libs/jquery/3.3.1/jquery.min.js"></script>
 </head>
 <header class="nav_and_menu">
@@ -40,6 +40,6 @@
 		</ul>
 	</div>
   	
-  	<script src="/DoShop/javascript/Page/NavAndMenu.js"></script>
+  	<script src="/DoShop/javascript/Etc/NavAndMenu.js"></script>
 </header>
 </html>

@@ -12,6 +12,6 @@ public class EtcController {
 	
 	@GetMapping("/")
 	public String home(HttpSession session) {
-		return viewPath + "/Home";
+		return "Home";
 	}
 }

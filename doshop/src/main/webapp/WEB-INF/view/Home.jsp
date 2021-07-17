@@ -7,11 +7,11 @@
     <meta http-equiv="X-UA-Compatible" content="IE=edge">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <title>DoShop</title>
-    <link rel="stylesheet" type="text/css" href="/DoShop/css/Page/Home.css">
+    <link rel="stylesheet" type="text/css" href="/DoShop/css/Home.css">
     <script src="https://ajax.googleapis.com/ajax/libs/jquery/3.3.1/jquery.min.js"></script>
 </head>
 <body>
-	<%@ include file="/WEB-INF/view/Page/NavAndMenu.jsp" %>
+	<%@ include file="/WEB-INF/view/Etc/NavAndMenu.jsp" %>
     <main>
         <section class="banner">
             <div class="pannel"></div>

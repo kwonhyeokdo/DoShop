@@ -174,7 +174,7 @@ function goToCategory(url){
 function checkSignin(){
 	let isSignin;
 	$.ajax({
-		url: '/DoShop/Etc/CheckSignin',
+		url: '/DoShop/Member/GetSigninSession',
 		method: 'post',
 		async: false
 	}).done(function(data){
@@ -192,21 +192,11 @@ function checkSignin(){
 }
 
 function signout(){
-	let isSignin;
-	$.ajax({
-		url: '/DoShop/Etc/CheckSignin',
-		method: 'post',
-		async: false
-	}).done(function(data){
-		if(data === ""){
-			isSignin = false;			
-		}else{
-			SigninSession = data;
-			isSignin = true;
-		}
-	}).fail(function(){
-		alert('서버 오류');
-	})
-	
-	return isSignin;
+	let form = document.createElement("form");
+    form.setAttribute("charset", "UTF-8");
+    form.setAttribute("method", "Post");
+    form.setAttribute("action", "/DoShop/Member/Signout");
+
+	document.body.appendChild(form);
+	form.submit();
 }
