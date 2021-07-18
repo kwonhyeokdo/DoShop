@@ -12,7 +12,7 @@
 </head>
 <body>
 	<%@ include file="/WEB-INF/view/Etc/NavAndMenu.jsp" %>
-    <main>
+    <main class="main">
         <section class="banner">
             <div class="pannel"></div>
             <a id="banner_logo" href="/DoShop" >DoShop</a>
@@ -22,5 +22,6 @@
             </div>
         </section>
     </main>
+    <%@ include file="/WEB-INF/view/Etc/Footer.jsp" %>
 </body>
 </html>

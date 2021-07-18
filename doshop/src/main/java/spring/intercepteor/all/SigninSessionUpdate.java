@@ -18,13 +18,12 @@ import member.signin.SigninSession;
 @Component
 public class SigninSessionUpdate implements HandlerInterceptor {
 	@Autowired
-	HttpSession httpSession;
-	@Autowired
 	MemberDAO memberDAO;
 	
 	@Override
 	public boolean preHandle(HttpServletRequest request, HttpServletResponse response, Object handler)
 			throws Exception {
+		HttpSession httpSession = request.getSession();
 		if(httpSession != null) {
 			SigninSession signinSession = (SigninSession)httpSession.getAttribute("signinSession");
 			if(signinSession != null) {

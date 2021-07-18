@@ -1,17 +1,13 @@
 package member;
 
-import javax.servlet.http.Cookie;
-import javax.servlet.http.HttpServletResponse;
-import javax.servlet.http.HttpSession;
-
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.ui.Model;
 import org.springframework.web.bind.annotation.PostMapping;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RequestParam;
-import org.springframework.web.bind.annotation.ResponseBody;
 import org.springframework.web.bind.annotation.RestController;
 
+import etc.SimpleContextUtil;
 import member.signin.SigninSession;
 import member.signup.PhoneAuthenticationService;
 import member.signup.TemporaryMemberService;
@@ -25,8 +21,6 @@ public class MemberRestController {
 	private TemporaryMemberService temporaryMemberService;
 	@Autowired
 	private MemberService memberService;
-	@Autowired
-	HttpSession httpSession;
 
 	
 	@PostMapping("/send_phone_number")
@@ -55,6 +49,6 @@ public class MemberRestController {
 	@PostMapping("/GetSigninSession")
 	public SigninSession postGetSigninSession(
 	){
-		return (SigninSession)httpSession.getAttribute("signinSession");
+		return (SigninSession)SimpleContextUtil.getAttributeFromSession("signinSession");
 	}
 }

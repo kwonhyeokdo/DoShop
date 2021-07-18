@@ -29,7 +29,7 @@
                     <h2>비밀번호</h2>
                     <input name="inputPassword" class="input_text" id="input_password" type="password" spellcheck="false" autocomplete="off"/>
                     <input id="button_signin" type="submit" value="로그인"/>
-                    <h3>${errorMessage}</h2>
+                    <h3>${errorMessage}</h3>
                 	<input name="checkRememberEmail" type="hidden">
                 	<input name="checkAutoSignin" type="hidden">
                 </form>
@@ -54,12 +54,9 @@
                 	</c:choose>
                 	<span class="signin_option_text">자동 로그인</span>
                 </div>
-                <a class="find_text" href="#">아이디 찾기</a>
-                <span class="find_text"> / </span> 
-                <a class="find_text" href="#">비밀번호 찾기</a>
-                <div class="wrap_signup">
                 <a class="signup_text" href="/DoShop/Member/Signup">회원가입</a>
-                </div>
+                <span class="find_text"> / </span> 
+                <a class="find_text" href="/DoShop/Member/FindPasswordStep">비밀번호 찾기</a>
             </div>
         </div>
     </main>

@@ -9,38 +9,33 @@ import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Component;
 import org.springframework.web.servlet.HandlerInterceptor;
 
-import etc.cookie.SimpleCookie;
+import etc.SimpleContextUtil;
 import member.signin.SigninService;
 import member.signin.SigninSession;
 
 @Component
 public class AutoSignin implements HandlerInterceptor {
 	@Autowired
-	private SimpleCookie simpleCookie;
-	@Autowired
 	private SigninService signinService;
-	@Autowired
-	HttpSession httpSession;
 	
 	@Override
 	public boolean preHandle(HttpServletRequest request, HttpServletResponse response, Object handler)
 			throws Exception {
-		SigninSession signinSession = (SigninSession)httpSession.getAttribute("signinSession");
+		SigninSession signinSession = (SigninSession)SimpleContextUtil.getAttributeFromSession("signinSession");
 		if(signinSession == null) {
-			System.out.println("세션 없음");
-			Cookie autoSignin = simpleCookie.getCookie("autoSignin");
+			Cookie autoSignin = SimpleContextUtil.getCookie("autoSignin");
 			if(autoSignin != null && autoSignin.getValue().equals("true")) {
-				Cookie autoSigninEmail = simpleCookie.getCookie("autoSigninEmail");
-				Cookie autoSigninPassword = simpleCookie.getCookie("autoSigninPassword");
+				Cookie autoSigninEmail = SimpleContextUtil.getCookie("autoSigninEmail");
+				Cookie autoSigninPassword = SimpleContextUtil.getCookie("autoSigninPassword");
 				if(autoSigninEmail != null && autoSigninPassword != null) {
-					signinService.signinWithCrypt(autoSigninEmail.getValue(), autoSigninPassword.getValue());
-					System.out.println("autoSignin: " + autoSignin.getValue());
-					System.out.println("autoSigninEmail: " + autoSigninEmail.getValue());
-					System.out.println("autoSigninPassword: " + autoSigninPassword.getValue());
+					String email = autoSigninEmail.getValue();
+					String password = autoSigninPassword.getValue();
+					if(signinService.signinWithCrypt(email, password)) {
+						SimpleContextUtil.createCookie("autoSigninEmail", email, 24*60*60);
+						SimpleContextUtil.createCookie("autoSigninPassword", password, 24*60*60);
+					}
 				}
 			}
-		}else {
-			System.out.println("세션 존재");
 		}
 		
 		return true;

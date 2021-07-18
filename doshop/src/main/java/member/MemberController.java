@@ -18,6 +18,7 @@ import org.springframework.web.bind.annotation.RequestParam;
 import org.springframework.web.bind.annotation.ResponseBody;
 import org.springframework.web.servlet.mvc.support.RedirectAttributes;
 
+import database.vo.MemberVO;
 import database.vo.TemporaryMemberVO;
 import etc.aes.AES256;
 import member.signin.SigninService;
@@ -29,7 +30,7 @@ import member.signup.TemporaryMemberService;
 @Controller
 @RequestMapping("/Member")
 public class MemberController {
-	String path = "/Member";
+	String viewPath = "/Member";
 
 	@Autowired
 	private SigninService signinService;
@@ -38,20 +39,19 @@ public class MemberController {
 	@Autowired
 	private MailAuthenticationService mailAuthenticationService;
 	@Autowired
-	HttpSession httpSession;
-	@Autowired
-	AES256 aes256;
+	private MemberService memberService;
 
 	@GetMapping("/Signin")
 	public String getSignin(
 		@CookieValue(value="rememberEmail", required=false) Cookie rememberEmailCookie,
 		@CookieValue(value="autoSignin", required=false) Cookie autoSignin,
+		String errorMessage,
 		Model model
 	) {
 		if(rememberEmailCookie != null) {
 			try {
 			String email = rememberEmailCookie.getValue();
-			model.addAttribute("rememberEmail", aes256.decrypt(email));
+			model.addAttribute("rememberEmail", AES256.decrypt(email));
 			}catch(Exception e) {
 				e.printStackTrace();
 			}
@@ -63,7 +63,8 @@ public class MemberController {
 				e.printStackTrace();
 			}
 		}
-		return path + "/Signin";
+		
+		return viewPath + "/Signin";
 	}
 	
 	@PostMapping("/Signin")
@@ -72,25 +73,25 @@ public class MemberController {
 		@RequestParam(value="inputPassword", required=false)String inputPassword,
 		@RequestParam(value="checkRememberEmail", required=false)String checkRememberEmail,
 		@RequestParam(value="checkAutoSignin", required=false)String checkAutoSignin,
-		Model model
+		RedirectAttributes redirectAttributes
 	) {
 		if(signinService.signin(inputEmail, inputPassword)) {
 			if(Boolean.parseBoolean(checkRememberEmail)){
-				signinService.registRememberEmailCookie(inputEmail);
+				signinService.useRememberEmailCookie(inputEmail);
 			}else {
-				signinService.deleteRememberEmailCookie();
+				signinService.DoNotUseRememberEmailCookie();
 			}
 
 			if(Boolean.parseBoolean(checkAutoSignin)) {
 				signinService.useAutoSigninCookie(inputEmail, inputPassword);
 			}else {
-				signinService.notUseAutoSigninCookie();
+				signinService.DoNotUseAutoSigninCookie();
 			}
 			return "redirect:/";
 		}else {
 			String errorMessage = "가입하지 않은 아이디이거나, 잘못된 비밀번호입니다";
-			model.addAttribute("errorMessage", errorMessage);
-			return path + "/Signin";
+			redirectAttributes.addFlashAttribute("errorMessage", errorMessage);
+			return "redirect:" + viewPath + "/Signin";
 		}
 	}
 	
@@ -105,17 +106,17 @@ public class MemberController {
 	
 	@GetMapping("/Signup")
 	public String signup(@ModelAttribute TemporaryMemberVO temporaryMemberVO) {
-		return path + "/Signup";
+		return viewPath + "/Signup";
 	}
 
 	@GetMapping("/NoticeEmail")
 	public String noticeEmail() {
-		return path + "/NoticeEmail";
+		return viewPath + "/NoticeEmail";
 	}
 
 	@GetMapping("/Congratulations")
 	public String congratulations() {
-		return path + "/Congratulations";
+		return viewPath + "/Congratulations";
 	}
 	
 	@PostMapping("/send_member_information")
@@ -125,10 +126,10 @@ public class MemberController {
 			redirectAttributes.addFlashAttribute("errorList", errorList);
 			redirectAttributes.addFlashAttribute("temporaryMemberVO", temporaryMemberVO);
 			
-			return "redirect:" + path + "/signup";
+			return "redirect:" + viewPath + "/signup";
 		}else {
 			mailAuthenticationService.registEmailAuthentication(temporaryMemberVO.getEmail());
-			return "redirect:" + path + "/NoticeEmail";
+			return "redirect:" + viewPath + "/NoticeEmail";
 		}
 		
 	}
@@ -138,20 +139,31 @@ public class MemberController {
 		try {
 			boolean isTrueMail = mailAuthenticationService.checkAuthenticationToken(token);
 			if(isTrueMail) {
-				return "redirect:" + path + "/Congratulations";
+				return "redirect:" + viewPath + "/Congratulations";
 			}else {
-				return "redirect:" + path + "/Signup";
+				return "redirect:" + viewPath + "/Signup";
 			}
 		}catch(RuntimeException e) {
 			System.out.println("mailAuthenticationService 오류");
-			return "redirect:" + path + "/Signup";
+			return "redirect:" + viewPath + "/Signup";
 		}
-	}	
+	}
 	
-	@ResponseBody
-	@PostMapping("/Hi")
-	public String awef() {
-		System.out.println("asdf");
-		return "assdfa";
-	}	
+	@GetMapping("/FindPasswordStep")
+	public String getFindPassword(String errorMessage) {
+		return viewPath + "/FindPasswordStep1";
+	}
+	
+	@PostMapping("/FindPasswordStep")
+	public String postFindPassword(
+		@RequestParam(value="inputEmail")String inputEmail,
+		RedirectAttributes redirectAttributes
+	) {
+		if(memberService.matchEmail(inputEmail)) {
+			return viewPath + "/FindPasswordStep2";
+		}else {
+			redirectAttributes.addFlashAttribute("errorMessage", "* 존재하지 않는 이메일입니다.");
+			return "redirect:" + viewPath + "/FindPasswordStep";
+		}
+	}
 }

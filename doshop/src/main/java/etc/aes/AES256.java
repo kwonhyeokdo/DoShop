@@ -10,8 +10,8 @@ import org.springframework.stereotype.Component;
 
 @Component
 public class AES256 {
-	final String secretKey = "01234567890123456789012345678912"; //32bit
-	final byte[] IV = {
+	private static final String secretKey = "01234567890123456789012345678912"; //32bit
+	private static final byte[] IV = {
 		0x00, 0x00, 0x00, 0x00,
 		0x00, 0x00, 0x00, 0x00,
 		0x00, 0x00, 0x00, 0x00,
@@ -19,7 +19,7 @@ public class AES256 {
 	}; // 16bit
 	
 	//암호화
-	public String encrypt(String str) throws Exception {
+	public static String encrypt(String str) throws Exception {
 		byte[] keyData = secretKey.getBytes();
 		SecretKey secureKey = new SecretKeySpec(keyData, "AES");
 		Cipher c = Cipher.getInstance("AES/CBC/PKCS5Padding");
@@ -30,7 +30,7 @@ public class AES256 {
 	}
 	
 	//복호화
-	public String decrypt(String str) throws Exception {
+	public static String decrypt(String str) throws Exception {
 		byte[] keyData = secretKey.getBytes();
 		SecretKey secureKey = new SecretKeySpec(keyData, "AES");
 		Cipher c = Cipher.getInstance("AES/CBC/PKCS5Padding");

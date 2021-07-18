@@ -24,8 +24,6 @@ public class AdminService {
 	@Autowired
 	SigninService signinService;
 	@Autowired
-	HttpSession httpSession;
-	@Autowired
 	MemberDAO memberDAO;
 	@Autowired
 	CategoryDAO categoryDAO;
@@ -49,18 +47,6 @@ public class AdminService {
 		return ((countOfAllAdmin % 10) > 0) ? lastPage += 1 : lastPage;
 	}
 	
-	public boolean signin(String inputEmail, String inputPassword) {
-		if(signinService.signin(inputEmail, inputPassword) &&
-		   ((SigninSession)(httpSession.getAttribute("signinSession"))).getAuthority() != 0) {
-			return true;
-		}
-		return false;
-	}
-	
-	public void signout() {
-		signinService.signout();
-	}
-
 	public List<AdminManagementVO> getAdminListOfPageSection(int requestPage, String requestSearch, String requestTag) {
 		int startIndex = requestPage * 10 - 9;
 		int endIndex = requestPage * 10;

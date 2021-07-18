@@ -18,14 +18,3 @@ $(document).ready(function(){
 		$('#wrap_signin').submit();
 	});
 });
-
-window.addEventListener('beforeunload', (event) => {
-	event.preventDefault();
-	$.ajax({
-		url: '/DoShop/Member/Hi',
-		method: 'post',
-		async: false
-	}).done(function(){
-		alert('ㅂ2');
-	});
-});

@@ -30,4 +30,8 @@ public class MemberService {
 			return true;
 		}
 	}
+	
+	public boolean matchEmail(String inputEmail) {
+		return (memberDAO.selectByEmail(inputEmail) == null) ? false : true;
+	}
 }

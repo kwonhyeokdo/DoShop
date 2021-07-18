@@ -41,5 +41,6 @@
 	</div>
   	
   	<script src="/DoShop/javascript/Etc/NavAndMenu.js"></script>
+	<div class="space"></div>
 </header>
 </html>

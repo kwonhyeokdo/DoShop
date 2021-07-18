@@ -1,16 +1,21 @@
 /* font-family: 'Noto Sans KR', sans-serif; */
 @import url('https://fonts.googleapis.com/css2?family=Noto+Sans+KR:wght@100&display=swap');
 
-*{
+body, head{
+    padding: 0;
+    margin: 0;
+}
+
+.main *{
     font-family: 'Noto Sans KR', sans-serif;
     padding: 0;
     margin: 0;
 }
 
-.banner{
+.main .banner{
     position: relative;
-    width: 100vw;
-    height: 100vh;
+    width: 100%;
+    height: calc(100vh - 120px);
     background-image: url('/DoShop/image/home_banner_wallpaper.jpg');
     background-position: center;
     background-size: cover;
@@ -22,17 +27,17 @@
     flex-direction: column;
 }
 
-.banner .pannel{
+.main .banner .pannel{
     position: absolute;
     left: 0;
     top: 0;
-    width: 100vw;
-    height: 100vh;
+    width: 100%;
+    height: calc(100vh - 120px);
     background-color: rgba(0, 0, 0, 0.7);
     z-index: 10;
 }
 
-#banner_logo{
+.main #banner_logo{
     position: relative;
     font-size: 7rem;
     text-decoration: none;
@@ -42,7 +47,7 @@
     text-shadow: -2px 0 rgb(141, 154, 226), 0 2px rgb(141, 154, 226), 2px 0 rgb(141, 154, 226), 0 -2px rgb(141, 154, 226);
 }
 
-#wrap_search{
+.main #wrap_search{
     width: 80%;
     max-width: 380px;
     height: 42px;
@@ -58,7 +63,7 @@
     border-radius: 10px;
 }
 
-#wrap_search input{
+.main #wrap_search input{
     width: calc(100% - 60px);
     height: 100%;
     font-size: 1.1rem;
@@ -68,7 +73,7 @@
     border: none;
 }
 
-#wrap_search button{
+.main #wrap_search button{
     width: 30px;
     height: 100%;
     font-size: 2rem;
@@ -81,7 +86,7 @@
     border: none;
 }
 
-#wrap_search button:hover{
+.main #wrap_search button:hover{
     cursor: pointer;
 }
 
