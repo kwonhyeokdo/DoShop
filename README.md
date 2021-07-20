@@ -8,3 +8,4 @@
            이메일 발송 시스템을 스레드로 빼서 지연 시간 없앰.
            이메일, 휴대폰 인증 시스템 수정.
            Congratulations.jsp, Notice.jsp와 같이 투박했던 페이지 html, css 수정
+           /DoShop/Member 안의 디렉터리 및 Controller 구조 변경
