@@ -66,7 +66,7 @@ public class SigninService {
 
 	public void useRememberEmailCookie(String inputEmail) {
 		try {
-			SimpleContextUtil.createCookie("rememberEmail", AES256.encrypt(inputEmail), 24*60*60);
+			SimpleContextUtil.createCookie("rememberEmail", AES256.encrypt(inputEmail), 24*60*60, "/");
 		} catch (Exception e) {
 			e.printStackTrace();
 		}
@@ -78,10 +78,10 @@ public class SigninService {
 
 	public void useAutoSigninCookie(String inputEmail, String inputPassword) {
 		try {
-			SimpleContextUtil.createCookie("autoSignin", "true", 24*60*60);
+			SimpleContextUtil.createCookie("autoSignin", "true", 24*60*60, "/");
 			MemberVO memberVO = memberDAO.selectByEmail(inputEmail);
-			SimpleContextUtil.createCookie("autoSigninEmail", AES256.encrypt(inputEmail), 24*60*60);
-			SimpleContextUtil.createCookie("autoSigninPassword", memberVO.getPassword(), 24*60*60);
+			SimpleContextUtil.createCookie("autoSigninEmail", AES256.encrypt(inputEmail), 24*60*60, "/");
+			SimpleContextUtil.createCookie("autoSigninPassword", memberVO.getPassword(), 24*60*60, "/");
 		} catch (Exception e) {
 			e.printStackTrace();
 		}

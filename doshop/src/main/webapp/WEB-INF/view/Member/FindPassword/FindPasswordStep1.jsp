@@ -14,7 +14,7 @@
 		<div class="inner">
 			<h1 class="title">비밀번호 찾기</h1>
 			<h2 class="info">이메일을 입력해주세요.</h2>
-			<form class="input_wrap" method="post" action="/DoShop/Member/FindPasswordStep">
+			<form class="input_wrap" method="post" action="/DoShop/Member/FindPassword/">
 				<input name="inputEmail" class="input_email" type="text" spellcheck="false" autocomplete="off">
 				<input class="submit_email" type="submit">
 			</form>

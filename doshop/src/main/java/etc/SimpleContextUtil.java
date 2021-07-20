@@ -78,10 +78,11 @@ public class SimpleContextUtil {
 		return null;
 	}
 	
-	public static void createCookie(String cookieName, String value, int maxAge) {
+	public static void createCookie(String cookieName, String value, int maxAge, String path) {
 		HttpServletResponse response = getResponse();
 		Cookie cookie = new Cookie(cookieName, value);
 		cookie.setMaxAge(maxAge);
+		cookie.setPath(path);
 		response.addCookie(cookie);
 	}
 	
@@ -91,6 +92,7 @@ public class SimpleContextUtil {
 			if(getCookie(cookieName) != null) {
 				Cookie cookie = new Cookie(cookieName, null);
 				cookie.setMaxAge(0);
+				cookie.setPath("/");
 				response.addCookie(cookie);	
 			}
 		} catch (Exception e) {
@@ -104,6 +106,7 @@ public class SimpleContextUtil {
 			if(cookie != null) {
 				cookie.setValue(null);
 				cookie.setMaxAge(0);
+				cookie.setPath("/");
 				response.addCookie(cookie);	
 			}
 		} catch (Exception e) {

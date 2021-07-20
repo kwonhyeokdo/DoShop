@@ -2,14 +2,16 @@
 @import url('https://fonts.googleapis.com/css2?family=Noto+Sans+KR:wght@100&display=swap');
 
 head, body{
+    font-family: 'Gaegu', cursive;
     padding: 0;
     margin: 0;
-    font-family: 'Noto Sans KR', sans-serif;
 }
 
 .main *{
+    font-family: 'Gaegu', cursive;
     padding: 0;
     margin: 0;
+    box-sizing: border-box;
     font-family: 'Noto Sans KR', sans-serif;
 }
 
@@ -17,13 +19,13 @@ head, body{
 	width: 100%;
 	height: calc(100vh - 120px);
 	position: relative;
-	display: flex;
+	background-image: url('/DoShop/image/expiration_wallpaper.jpg');
+	background-position: center;
+	background-repeat: no-repeat;
+	background-size: cover;
+	display:flex;
 	justify-content: center;
 	align-items: center;
-	background-image: url('/DoShop/image/NoticeEmail_wallpaper.jpg');
-	background-repeat: no-repeat;
-	background-size: conver;
-	background-position: center;
 }
 
 .main .pannel{
@@ -34,32 +36,28 @@ head, body{
 	z-index: 1;
 }
 
-.main .container{
-    width: 80%;
-    display: flex;
-    flex-wrap: wrap;
-    justify-content: center;
-    align-items: center;
-    flex-direction: column;
+.main .wrap{
+	width: 70%;
+	height: 500px;
+	position: relative;
 	z-index: 10;
+	display:flex;
+	justify-content: center;
+	align-items: center;
+	flex-direction: column;
 }
 
 .main .title{
-	font-size: 2rem;
-    color: white;
-}
-
-.main .notice{
-	margin-top: 20px;
-	text-align: center;
-	font-size: 1.5rem;
-    color: white;
+	font-size: 3rem;
+	color: white;
+	user-select: none;
 }
 
 .main .link{
-	margin-top: 20px;
-	font-size: 1rem;
+	margin-top: 30px;
+	border-bottom: solid 1px white;
+	color: white;
 	text-decoration: none;
-    color: white;
-    border-bottom: solid 1px white;
+	user-select: none;
+	font-size: 1.5rem;
 }

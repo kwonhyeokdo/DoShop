@@ -22,7 +22,7 @@ $(document).ready(function(){
 		tag += '</div>';
 		$('.nav_and_menu #sign').append(tag);
 	}else{
-		$('.nav_and_menu #sign').append('<a class="not_signin" href="/DoShop/Member/Signin">로그인</a>');
+		$('.nav_and_menu #sign').append('<a class="not_signin" href="/DoShop/Member/Signin/">로그인</a>');
 	}
 	
 	$(document).on(
@@ -174,7 +174,7 @@ function goToCategory(url){
 function checkSignin(){
 	let isSignin;
 	$.ajax({
-		url: '/DoShop/Member/GetSigninSession',
+		url: '/DoShop/Member/Signin/GetSigninSession',
 		method: 'post',
 		async: false
 	}).done(function(data){
@@ -195,7 +195,7 @@ function signout(){
 	let form = document.createElement("form");
     form.setAttribute("charset", "UTF-8");
     form.setAttribute("method", "Post");
-    form.setAttribute("action", "/DoShop/Member/Signout");
+    form.setAttribute("action", "/DoShop/Member/Signout/");
 
 	document.body.appendChild(form);
 	form.submit();

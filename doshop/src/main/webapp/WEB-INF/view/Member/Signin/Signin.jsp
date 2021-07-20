@@ -23,7 +23,7 @@
         <div class="background">
             <div class="wrap_inline_center"><a id="logo" href="/DoShop/">DoShop</a></div>
             <div class="container">
-                <form id="wrap_signin" method="post" action="/DoShop/Member/Signin">
+                <form id="wrap_signin" method="post" action="/DoShop/Member/Signin/">
                     <h2>이메일</h2>
                     <input name="inputEmail" class="input_text input_margin_bottem" id="input_email" type="text" spellcheck="false" autocomplete="off" value="${rememberEmail}"/>
                     <h2>비밀번호</h2>
@@ -54,9 +54,9 @@
                 	</c:choose>
                 	<span class="signin_option_text">자동 로그인</span>
                 </div>
-                <a class="signup_text" href="/DoShop/Member/Signup">회원가입</a>
+                <a class="signup_text" href="/DoShop/Member/Signup/">회원가입</a>
                 <span class="find_text"> / </span> 
-                <a class="find_text" href="/DoShop/Member/FindPasswordStep">비밀번호 찾기</a>
+                <a class="find_text" href="/DoShop/Member/FindPassword/">비밀번호 찾기</a>
             </div>
         </div>
     </main>

@@ -8,10 +8,15 @@ import org.springframework.web.bind.annotation.RequestMapping;
 
 @Controller
 public class EtcController {
-	String viewPath = "/Page";
+	String viewPath = "/Etc";
 	
 	@GetMapping("/")
 	public String home(HttpSession session) {
 		return "Home";
+	}
+
+	@GetMapping("/Expiration")
+	public String getExpiration() {
+		return viewPath + "/Expiration";
 	}
 }

@@ -30,7 +30,7 @@
     </header>
     <main class="background">
         <div class="container">
-            <form:form modelAttribute="temporaryMemberVO" id="member_information" action="/DoShop/Member/send_member_information" method="post">
+            <form:form modelAttribute="temporaryMemberVO" id="member_information" action="/DoShop/Member/Signup/RegistTemporaryMember" method="post">
                 <h2>이메일</h2>
                 <div class="wrap_input">
                 	<form:input path="email" name="email" id="input_email" class="input_hidden" type="text" spellcheck="false" autocomplete="off"/>

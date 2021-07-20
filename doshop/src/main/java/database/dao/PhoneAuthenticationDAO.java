@@ -24,13 +24,13 @@ public class PhoneAuthenticationDAO {
 		this.jdbcTemplate = new JdbcTemplate(dataSource);
 	}
 	
-	public void insert(String phoneNumber, String authenticationNumber, Timestamp occurrenceTime) {
-		String sql = "insert into phone_authentication (phone_number, authentication_number, occurrence_time) values (?,?,?)";
-		jdbcTemplate.update(sql, phoneNumber, authenticationNumber, occurrenceTime);
+	public void insert(String phoneNumber, String authenticationNumber, Timestamp occurrenceTime, String authenticationLevel) {
+		String sql = "insert into phone_authentication (phone_number, authentication_number, occurrence_time, authentication_level) values (?,?,?,?)";
+		jdbcTemplate.update(sql, phoneNumber, authenticationNumber, occurrenceTime, authenticationLevel);
 	}
 	
-	public PhoneAuthenticationVO selectPhoneNumberForLastDate(String phoneNumber) {
-		String sql = "select * from phone_authentication where phone_number=? and occurrence_time=(select max(occurrence_time) from phone_authentication where phone_number=?)";
+	public PhoneAuthenticationVO selectPhoneNumberForLastDate(String phoneNumber, String authenticationLevel) {
+		String sql = "select * from phone_authentication where phone_number=? and occurrence_time=(select max(occurrence_time) from phone_authentication where phone_number=?) and authentication_level=?";
 		
 		PhoneAuthenticationVO phoneAuthenticationVO = jdbcTemplate.queryForObject(sql, new RowMapper<PhoneAuthenticationVO>() {
 			@Override
@@ -41,8 +41,7 @@ public class PhoneAuthenticationDAO {
 				phoneAuthenticationVO.setOccurrenceTime(rs.getTimestamp("occurrence_time"));
 				return phoneAuthenticationVO;
 			}
-		}, phoneNumber
-		, phoneNumber);
+		}, phoneNumber, phoneNumber, authenticationLevel);
 		
 		return phoneAuthenticationVO;
 	}

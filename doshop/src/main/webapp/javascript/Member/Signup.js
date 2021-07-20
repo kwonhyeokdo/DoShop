@@ -132,11 +132,11 @@ function emailCheck(){
 function emailDuplicateCheck(){
 	const EMAIL = document.querySelector('#input_email').value;
 	$.ajax({
-		url: "http://localhost:8090/DoShop/Member/send_email",
+		url: "/DoShop/Member/Signup/EmailExists",
 		data: {email : EMAIL},
 		type: "post",
 		dataType: "text",
-		async:true
+		async:false
 	}).done(function(data){
 		if(data === "false"){
 			//changeMessageImage(EMAIL_MESSAGE, EMAIL_IMAGE, EMAIL_SUCCESS_MESSAGE, "blue", ENABLE_PNG);
@@ -294,7 +294,7 @@ function sendPhoneNumber(){
     if(phoneNumberCheck()){
 		changeMessage(PHONE_MESSAGE, PHONE_FAILURE_MESSAGE3, "green");
         $.ajax({
-			url: "http://localhost:8090/DoShop/Member/send_phone_number",
+			url: "/DoShop/Member/Signup/GetAuthenticationNumber",
 			data: {phone_number : PHONE_NUMBER},
 			type: "post",
 			dataType: "text",
@@ -316,7 +316,7 @@ function sendAuthenticationNumber(){
     const SEND_AUTHENTICATION_NUMBER = document.querySelector('#button_send_authentication_number');
 			
 	$.ajax({
-		url: "http://localhost:8090/DoShop/Member/send_authentication_number",
+		url: "/DoShop/Member/Signup/CheckAuthenticationNumber",
 		data: {
 			phone_number : PHONE_NUMBER,
 			authentication_number : AUTHENTICATION_NUMBER

@@ -1,4 +1,4 @@
-package member.signup;
+package member;
 
 import java.sql.Timestamp;
 import java.time.Duration;
@@ -13,12 +13,9 @@ import database.vo.PhoneAuthenticationVO;
 @Service
 public class PhoneAuthenticationService {
 	public final static int AUTHENTICATION_TIME_SEC = 30;
-	private PhoneAuthenticationDAO phoneAuthenticationDAO;
 	
 	@Autowired
-	public void setPhoneAuthenticationDAO(PhoneAuthenticationDAO phoneAuthenticationDAO) {
-		this.phoneAuthenticationDAO = phoneAuthenticationDAO;
-	}
+	private PhoneAuthenticationDAO phoneAuthenticationDAO;
 
 	private String createAuthenticationNumber() {
 		final int MAX = 999999;
@@ -32,7 +29,7 @@ public class PhoneAuthenticationService {
 		return new Timestamp(System.currentTimeMillis());
 	}
 	
-	public void registPhoneAuthentication(String phoneNumber) {
+	public void registPhoneAuthentication(String phoneNumber, String place) {
 		Timestamp authenticationTime = createAuthenticationTime();
 		
 		String authenticationNumber = createAuthenticationNumber();
@@ -62,11 +59,11 @@ public class PhoneAuthenticationService {
 	    // 문자 발송 API 끝 //
 */
 		System.out.println("인증번호: " + authenticationNumber);
-		phoneAuthenticationDAO.insert(phoneNumber, authenticationNumber, authenticationTime);
+		phoneAuthenticationDAO.insert(phoneNumber, authenticationNumber, authenticationTime, place);
 	}
 
-	public Boolean checkAuthenticationNumber(String phoneNumber, String authenticationNumber) {
-		PhoneAuthenticationVO phoneAuthenticationVO = phoneAuthenticationDAO.selectPhoneNumberForLastDate(phoneNumber);
+	public Boolean checkAuthenticationNumber(String phoneNumber, String authenticationNumber, String place) {
+		PhoneAuthenticationVO phoneAuthenticationVO = phoneAuthenticationDAO.selectPhoneNumberForLastDate(phoneNumber, place);
 		LocalDateTime currentTime = LocalDateTime.now();
 		LocalDateTime occurrenceTime = phoneAuthenticationVO.getOccurrenceTime().toLocalDateTime();
 		Duration duration = Duration.between(currentTime, occurrenceTime);

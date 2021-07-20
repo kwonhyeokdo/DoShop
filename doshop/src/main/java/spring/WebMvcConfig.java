@@ -14,7 +14,7 @@ import spring.intercepteor.admin.ConditionForAdminEntry;
 
 @Configuration
 @EnableWebMvc
-@ComponentScan(basePackages = {"admin", "member", "etc", "database", "spring"})
+@ComponentScan(basePackages = {"admin", "etc", "member", "database", "spring"})
 public class WebMvcConfig implements WebMvcConfigurer{
 	@Autowired
 	InterceptorFactory interceptorFactory;

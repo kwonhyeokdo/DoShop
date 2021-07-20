@@ -17,6 +17,7 @@ import org.springframework.stereotype.Component;
 import org.springframework.stereotype.Repository;
 
 import database.vo.MailAuthenticationVO;
+import member.MailAuthenticationService;
 
 @Repository
 public class MailAuthenticationDAO {
@@ -28,14 +29,14 @@ public class MailAuthenticationDAO {
 		this.jdbcTemplate = new JdbcTemplate(dataSource);
 	}
 	
-	public void insert(String email, String token, Timestamp occurrenceTime) {
-		String sql = "insert into email_authentication (email, token, occurrence_time) values (?,?,?)";
+	public void insert(String email, String token, Timestamp occurrenceTime, String authenticationLevel) {
+		String sql = "insert into email_authentication (email, token, occurrence_time, authentication_level) values (?,?,?,?)";
 		
-		jdbcTemplate.update(sql, email, token, occurrenceTime);
+		jdbcTemplate.update(sql, email, token, occurrenceTime, authenticationLevel);
 	}
 	
-	public List<MailAuthenticationVO> selectByToken(String token) {
-		String sql = "select * from email_authentication where token=?";
+	public List<MailAuthenticationVO> selectByToken(String token, String authenticationLevel) {
+		String sql = "select * from email_authentication where token=? and authentication_Level=? AND occurrence_time >= DATE_SUB(NOW(), INTERVAL ? SECOND)";
 		
 		List<MailAuthenticationVO> mailAuthenticationList = jdbcTemplate.query(sql, 
 			new RowMapper<MailAuthenticationVO>() {
@@ -48,20 +49,21 @@ public class MailAuthenticationDAO {
 					return mailAuthenticationVO;
 				}
 			},
-			token
+			token, authenticationLevel, MailAuthenticationService.AUTHENTICATION_TIME_SEC
 		);
 		
 		return mailAuthenticationList;
 	}
 	
 	public void deleteByToken(String token) {
-		String sql = "delete from email_authentication where token = ?";
+		String sql = "delete from email_authentication where token = ? AND occurrence_time >= DATE_SUB(NOW(), INTERVAL ? SECOND)";
 		jdbcTemplate.update(new PreparedStatementCreator() {
 			
 			@Override
 			public PreparedStatement createPreparedStatement(Connection con) throws SQLException {
 				PreparedStatement pstmt = con.prepareStatement(sql);
 				pstmt.setString(1, token);
+				pstmt.setInt(2, MailAuthenticationService.AUTHENTICATION_TIME_SEC);
 				return pstmt;
 			}
 		});

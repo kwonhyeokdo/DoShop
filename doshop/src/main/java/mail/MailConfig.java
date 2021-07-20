@@ -29,9 +29,6 @@ public class MailConfig {
 	
 	@Bean
 	public MailService mailService() {
-		//MailService mailService = new MailService();
-		//mailService.setJavaMailSenderImpl(javaMailSenderImpl());
-		//return mailService;
 		return new MailService();
 	}
 }

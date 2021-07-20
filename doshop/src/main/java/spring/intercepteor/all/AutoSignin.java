@@ -31,8 +31,8 @@ public class AutoSignin implements HandlerInterceptor {
 					String email = autoSigninEmail.getValue();
 					String password = autoSigninPassword.getValue();
 					if(signinService.signinWithCrypt(email, password)) {
-						SimpleContextUtil.createCookie("autoSigninEmail", email, 24*60*60);
-						SimpleContextUtil.createCookie("autoSigninPassword", password, 24*60*60);
+						SimpleContextUtil.createCookie("autoSigninEmail", email, 24*60*60, "/");
+						SimpleContextUtil.createCookie("autoSigninPassword", password, 24*60*60, "/");
 					}
 				}
 			}

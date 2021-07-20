@@ -14,6 +14,7 @@ import org.springframework.stereotype.Component;
 import org.springframework.stereotype.Repository;
 
 import database.vo.TemporaryMemberVO;
+import member.MailAuthenticationService;
 
 @Repository
 public class TemporaryMemberDAO {
@@ -38,8 +39,8 @@ public class TemporaryMemberDAO {
 		);
 	}
 	
-	public List<TemporaryMemberVO> selectByEmail(String email) {
-		String sql = "select * from temporary_member where email = ?";
+	public List<TemporaryMemberVO> selectByEmailInExpiration(String email) {
+		String sql = "select * from temporary_member where email = ? AND registration_time >= DATE_SUB(NOW(), INTERVAL ? SECOND)";
 		List<TemporaryMemberVO> temporaryMemberList = jdbcTemplate.query(sql, 
 			new RowMapper<TemporaryMemberVO>() {
 				@Override
@@ -58,11 +59,14 @@ public class TemporaryMemberDAO {
 					temporaryMemberVO.setRegistrationTime(rs.getTimestamp("registration_time"));
 					return temporaryMemberVO;
 				}
-			
-			},
-			email
+			}, email, MailAuthenticationService.AUTHENTICATION_TIME_SEC
 		);
 		
 		return temporaryMemberList;
+	}
+	
+	public void deleteByEmailInExpiration(String email) {
+		String sql = "DELETE FROM temporary_member WHERE email=? AND registration_time >= DATE_SUB(NOW(), INTERVAL ? SECOND)";
+		jdbcTemplate.update(sql, email, MailAuthenticationService.AUTHENTICATION_TIME_SEC);
 	}
 }

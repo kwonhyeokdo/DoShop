@@ -9,12 +9,8 @@ import org.springframework.mail.javamail.JavaMailSenderImpl;
 import org.springframework.mail.javamail.MimeMessageHelper;
 
 public class MailService {
-	private JavaMailSenderImpl javaMailSenderImpl;
-
 	@Autowired
-	public void setJavaMailSenderImpl(JavaMailSenderImpl javaMailSenderImpl) {
-		this.javaMailSenderImpl = javaMailSenderImpl;
-	}
+	private JavaMailSenderImpl javaMailSenderImpl;
 
 	public void sendHtmlMail(List<String> recipientList, String title, String content){
 		if(recipientList == null || recipientList.isEmpty()) {
@@ -50,26 +46,32 @@ public class MailService {
 	}
 	
 	private void createHtmlMail(String[] to, String title, String content){
-		// 보내는 사람
-		final String from = "kwonhyeokdo1209@gmail.com";
+		Thread thread = new Thread(new Runnable() {
+			@Override
+			public void run() {// 보내는 사람
+				final String from = "kwonhyeokdo1209@gmail.com";
+				
+				try {
+					// 메일 내용 넣을 객체와, 이를 도와주는 Helper 객체 생성
+					MimeMessage mail = javaMailSenderImpl.createMimeMessage();
+					MimeMessageHelper mailHelper = new MimeMessageHelper(mail, "UTF-8");
+
+					
+					// 메일 내용을 채워줌
+					mailHelper.setFrom(from);	// 보내는 사람 셋팅
+					mailHelper.setTo(to);		// 받는 사람 셋팅
+					mailHelper.setSubject(title);	// 제목 셋팅
+					mailHelper.setText(content, true);	// HTML 내용 셋팅
+					//mailHelper.setText(content);	// 내용 셋팅
+
+					// 메일 전송
+					javaMailSenderImpl.send(mail);
+				} catch(Exception e) {
+					e.printStackTrace();
+				}
+			}
+		});
 		
-		try {
-			// 메일 내용 넣을 객체와, 이를 도와주는 Helper 객체 생성
-			MimeMessage mail = javaMailSenderImpl.createMimeMessage();
-			MimeMessageHelper mailHelper = new MimeMessageHelper(mail, "UTF-8");
-
-			
-			// 메일 내용을 채워줌
-			mailHelper.setFrom(from);	// 보내는 사람 셋팅
-			mailHelper.setTo(to);		// 받는 사람 셋팅
-			mailHelper.setSubject(title);	// 제목 셋팅
-			mailHelper.setText(content, true);	// HTML 내용 셋팅
-			//mailHelper.setText(content);	// 내용 셋팅
-
-			// 메일 전송
-			javaMailSenderImpl.send(mail);
-		} catch(Exception e) {
-			e.printStackTrace();
-		}
+		thread.start();
 	}
 }

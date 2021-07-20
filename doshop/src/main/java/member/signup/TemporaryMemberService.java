@@ -13,12 +13,8 @@ import database.vo.TemporaryMemberVO;
 
 @Service
 public class TemporaryMemberService {
-	private TemporaryMemberDAO temporaryMemberDAO;
-	
 	@Autowired
-	public void setTemporaryMemberDAO(TemporaryMemberDAO temporaryMemberDAO) {
-		this.temporaryMemberDAO = temporaryMemberDAO;
-	}
+	private TemporaryMemberDAO temporaryMemberDAO;
 	
 	private boolean checkEmail(String email) {
 		Pattern pattern = Pattern.compile("(?i)^[0-9a-zA-Z]([-_.]?[0-9a-zA-Z])*@[0-9a-zA-Z]([-_.]?[0-9a-zA-Z])*.[0-9a-zA-Z]{1,3}$");
@@ -27,8 +23,8 @@ public class TemporaryMemberService {
 		return matcher.find();
 	}
 	
-	public boolean checkDuplicateEmail(String email) {
-		List<TemporaryMemberVO> memberList =  temporaryMemberDAO.selectByEmail(email);
+	public boolean emailExists(String email) {
+		List<TemporaryMemberVO> memberList =  temporaryMemberDAO.selectByEmailInExpiration(email);
 		if(memberList.isEmpty()) {
 			return false;
 		}else {
@@ -118,7 +114,7 @@ public class TemporaryMemberService {
 		return (detailAddress.length() > 0) ? true : false;
 	}
 	
-	public ArrayList<String> checkTemporaryMemberVO(TemporaryMemberVO temporaryMemberVO) {
+	public ArrayList<String> checkErrorTemporaryMemberVO(TemporaryMemberVO temporaryMemberVO) {
 		ArrayList<String> errorList = new ArrayList<>();
 		if(!checkEmail(temporaryMemberVO.getEmail())){
 			errorList.add("email");
@@ -151,13 +147,8 @@ public class TemporaryMemberService {
 		return errorList;
 	}
 	
-	public ArrayList<String> registTemporaryMember(TemporaryMemberVO temporaryMemberVO) {
-		ArrayList<String> errorList = checkTemporaryMemberVO(temporaryMemberVO); 
-		if(errorList.isEmpty()) {
-			temporaryMemberDAO.insert(temporaryMemberVO);
-		}
-			
-		return errorList;
+	public void registTemporaryMember(TemporaryMemberVO temporaryMemberVO) {
+		temporaryMemberDAO.insert(temporaryMemberVO);
 	}
 	
 	public void printTemporaryMemberVOList(List<TemporaryMemberVO> temporaryMemberVOList) {
