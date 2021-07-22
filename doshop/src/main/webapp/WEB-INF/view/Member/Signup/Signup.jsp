@@ -15,6 +15,12 @@
     <title>DoShopSignUp</title>
 </head>
 <body>
+	<script>
+		var errorMessage
+		if("${errorMessage}".length !== 0){
+			alert("${errorMessage}");
+		}
+	</script>
 	<div id="wallpaper"></div>
 	<div id="pannel"></div>
     <nav id="navi_top">
@@ -31,6 +37,7 @@
     <main class="background">
         <div class="container">
             <form:form modelAttribute="temporaryMemberVO" id="member_information" action="/DoShop/Member/Signup/RegistTemporaryMember" method="post">
+            	<input type="hidden" name="authenticationCode">
                 <h2>이메일</h2>
                 <div class="wrap_input">
                 	<form:input path="email" name="email" id="input_email" class="input_hidden" type="text" spellcheck="false" autocomplete="off"/>
@@ -130,56 +137,6 @@
         </div>
     </footer>
     <script src="//t1.daumcdn.net/mapjsapi/bundle/postcode/prod/postcode.v2.js"></script>
-
-<script>
-var errorMessage;
-</script>
-<%
-ArrayList<String> errorList = (ArrayList<String>)request.getAttribute("errorList");
-if(errorList != null && !errorList.isEmpty()){
-	String errorMessage = "";
-	for(String errorCode : errorList){
-		switch(errorCode){
-			case "email":
-				errorMessage += "이메일";
-				System.out.println(errorMessage);
-				break;
-			case "password":
-				errorMessage += "비밀번호";
-				System.out.println(errorMessage);
-				break;
-			case "name":
-				errorMessage += "이름";
-				System.out.println(errorMessage);
-				break;
-			case "sex":
-				errorMessage += "성별";
-				System.out.println(errorMessage);
-				break;
-			case "birthday":
-				errorMessage += "생일";
-				System.out.println(errorMessage);
-				break;
-			case "phoneNumber":
-				errorMessage += "핸드폰 번호";
-				System.out.println(errorMessage);
-				break;
-			case "address":
-				errorMessage += "주소";
-				System.out.println(errorMessage);
-				break;
-		}
-		errorMessage += ", ";
-	}
-	errorMessage = errorMessage.substring(0, errorMessage.length() - 2);
-	errorMessage += "를(을) 잘못 입력하셨습니다.";
-%>
-<script>
-	errorMessage = "<%=errorMessage %>";
-</script>
-<%
-}
-%>
     <script src="/DoShop/javascript/Member/Signup.js"></script>
 </body>
 </html>

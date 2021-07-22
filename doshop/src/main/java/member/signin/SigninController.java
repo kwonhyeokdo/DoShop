@@ -12,7 +12,8 @@ import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RequestParam;
 import org.springframework.web.servlet.mvc.support.RedirectAttributes;
 
-import etc.aes.AES256;
+import etc.SimpleCrypt;
+
 
 @Controller
 @RequestMapping("/Member/Signin")
@@ -30,19 +31,11 @@ public class SigninController {
 		Model model
 	) {
 		if(rememberEmailCookie != null) {
-			try {
 			String email = rememberEmailCookie.getValue();
-			model.addAttribute("rememberEmail", AES256.decrypt(email));
-			}catch(Exception e) {
-				e.printStackTrace();
-			}
+			model.addAttribute("rememberEmail", SimpleCrypt.aes256decrypt(email));
 		}
 		if(autoSignin != null) {
-			try {
 			model.addAttribute("autoSignin", autoSignin.getValue());
-			}catch(Exception e) {
-				e.printStackTrace();
-			}
 		}
 		
 		return viewPath + "/Signin";

@@ -1,0 +1,84 @@
+/* font-family: 'Noto Sans KR', sans-serif; */
+@import url('https://fonts.googleapis.com/css2?family=Noto+Sans+KR:wght@100&display=swap');
+
+head, body{
+    font-family: 'Noto Sans KR', sans-serif;
+    padding: 0;
+    margin: 0;
+}
+
+.main *{
+    font-weight: 900;
+    padding: 0;
+    margin: 0;
+    box-sizing: border-box;
+    font-family: 'Noto Sans KR', sans-serif;
+}
+
+.main{
+	width: 100%;
+	height: calc(100vh - 120px);
+	position: relative;
+	background-image: url('/DoShop/image/member_information_wallpaper.jpg');
+	background-position: center;
+	background-repeat: no-repeat;
+	background-size: cover;
+	display:flex;
+	justify-content: center;
+	align-items: center;
+}
+
+.main .pannel{
+	width: 100%;
+	height: calc(100vh - 120px);
+	position: absolute;
+	background-color: rgba(0, 0, 0, 0.6);
+	z-index: 1;
+}
+
+.main .inner{
+	width: 320px;
+	position: relative;
+	z-index: 10;
+}
+
+.main .title{
+	margin-bottom: 30px;
+	text-align: center;
+	font-size: 3rem;
+	color: white;
+	user-select: none;
+	text-shadow: -2px 0 rgb(141, 154, 226), 0 2px rgb(141, 154, 226), 2px 0 rgb(141, 154, 226), 0 -2px rgb(141, 154, 226);
+}
+
+.main .input_box{
+	display: flex;
+	justify-content: center;
+	align-items: center;
+}
+
+.main .input_password{
+	width: 220px;
+	height: 40px;
+	padding: 5px;
+	margin-right: 5px;
+	border: solid 2px rgb(141, 154, 226);
+	border-radius: 7px;
+	outline: none;
+}
+
+.main .input_submit{
+	height: 40px;
+	padding: 5px;
+	font-size: 1rem;
+	border: solid 2px rgb(141, 154, 226);
+	border-radius: 7px;
+	cursor: pointer;
+}
+
+.main .notice{
+	margin-top: 3px;
+	font-size: 0.8rem;
+	color: white;
+	text-align: center;
+}

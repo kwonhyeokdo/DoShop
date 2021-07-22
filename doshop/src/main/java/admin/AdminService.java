@@ -17,7 +17,7 @@ import database.dao.MemberDAO;
 import database.vo.AdminManagementVO;
 import database.vo.CategoryVO;
 import member.signin.SigninService;
-import member.signin.SigninSession;
+import session.SigninSession;
 
 @Service
 public class AdminService {

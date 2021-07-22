@@ -1,5 +1,7 @@
 package member.findPassword;
 
+import java.util.HashMap;
+
 import org.json.simple.JSONObject;
 import org.json.simple.parser.JSONParser;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -11,8 +13,11 @@ import org.springframework.web.bind.annotation.RestController;
 
 import com.fasterxml.jackson.databind.util.JSONPObject;
 
+import etc.SimpleContextUtil;
+import etc.SimpleUtil;
 import member.AuthenticationLevel;
 import member.MailAuthenticationService;
+import member.MemberService;
 import member.PhoneAuthenticationService;
 
 @RestController
@@ -24,6 +29,8 @@ public class FindPasswordRestController {
 	private FindPasswordService findPasswordService;
 	@Autowired
 	private MailAuthenticationService mailAuthenticationService;
+	@Autowired
+	private MemberService memberService;
 	
 	@PostMapping("/GetPhoneNumber")
 	public String postGetPhoneNumber(
@@ -43,13 +50,20 @@ public class FindPasswordRestController {
 	}
 	
 	@PostMapping("/CheckAuthorityNumber")
-	public boolean postCheckAuthorityNumber(
+	public String postCheckAuthorityNumber(
 		@RequestParam(value="inputEmail")String inputEmail,
 		@RequestParam(value="authorityNumber")String authorityNumber
 	) {
 		String phoneNumber = findPasswordService.getPhoneNumber(inputEmail);
-		
-		return phoneAuthenticationService.checkAuthenticationNumber(phoneNumber, authorityNumber, AuthenticationLevel.FIND_PASSWORD.name());
+		if(phoneAuthenticationService.checkAuthenticationNumber(phoneNumber, authorityNumber, AuthenticationLevel.FIND_PASSWORD.name())) {
+			String pageAuthCode = SimpleUtil.createAuthenticationCode();
+			HashMap<String, String> authSession = (HashMap<String, String>)SimpleContextUtil.getAttributeFromSession("authenticationSession");
+			authSession.put(AuthenticationLevel.FIND_PASSWORD.name(), pageAuthCode);
+			SimpleContextUtil.setAttributeToSession("authenticationSession", authSession);
+			return pageAuthCode;
+		}else {
+			return "false";
+		}
 	}
 	
 	@PostMapping("/CreateAuthenticationEmail")
@@ -60,10 +74,34 @@ public class FindPasswordRestController {
 	}
 	
 	@PostMapping("/CheckAuthorityEmailCode")
-	public boolean postCheckAuthorityEmailCode(
+	public String postCheckAuthorityEmailCode(
 		@RequestParam(value="inputEmail")String inputEmail,
 		@RequestParam(value="authenticationCode")String authenticationCode
 	) {
-		return mailAuthenticationService.checkAuthenticationToken(inputEmail, authenticationCode, AuthenticationLevel.FIND_PASSWORD.name());
+		if(mailAuthenticationService.checkAuthenticationToken(inputEmail, authenticationCode, AuthenticationLevel.FIND_PASSWORD.name())) {
+			String pageAuthCode = SimpleUtil.createAuthenticationCode();
+			HashMap<String, String> authSession = (HashMap<String, String>)SimpleContextUtil.getAttributeFromSession("authenticationSession");
+			authSession.put(AuthenticationLevel.FIND_PASSWORD.name(), pageAuthCode);
+			SimpleContextUtil.setAttributeToSession("authenticationSession", authSession);
+			return pageAuthCode;
+		}else {
+			return "false";	
+		}
+	}
+	
+	@PostMapping("/IsOldPassword")
+	public boolean postIsOldPassword(
+		@RequestParam(value="inputEmail")String inputEmail,
+		@RequestParam(value="inputPassword")String inputPassword
+	) {
+		return memberService.isOldPassword(inputEmail, inputPassword);
+	}
+	
+	@PostMapping("/ChangePassword")
+	public boolean postChangePassword(
+		@RequestParam(value="inputEmail")String inputEmail,
+		@RequestParam(value="inputPassword")String inputPassword
+	) {
+		return memberService.chagnePassword(inputEmail, inputPassword);
 	}
 }

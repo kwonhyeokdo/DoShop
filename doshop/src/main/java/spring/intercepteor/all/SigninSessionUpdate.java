@@ -13,7 +13,7 @@ import org.springframework.web.servlet.HandlerInterceptor;
 import database.dao.MemberDAO;
 import database.vo.MemberVO;
 import member.signin.SigninService;
-import member.signin.SigninSession;
+import session.SigninSession;
 
 @Component
 public class SigninSessionUpdate implements HandlerInterceptor {
@@ -27,9 +27,12 @@ public class SigninSessionUpdate implements HandlerInterceptor {
 		if(httpSession != null) {
 			SigninSession signinSession = (SigninSession)httpSession.getAttribute("signinSession");
 			if(signinSession != null) {
-				MemberVO memberVO = memberDAO.selectMemberVOByMemberNumber(signinSession.getMemberNumber());
-				if(memberVO != null){
-					signinSession.updateSigninSession(memberVO);
+				List<MemberVO> memberVOList = memberDAO.selectByMemberNumber(signinSession.getMemberNumber());
+				if(!memberVOList.isEmpty()) {
+					MemberVO memberVO = memberVOList.get(0);
+					if(memberVO != null){
+						signinSession.updateSigninSession(memberVO);
+					}	
 				}
 			}
 		}

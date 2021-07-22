@@ -1,4 +1,4 @@
-package member.signin;
+package session;
 
 import database.vo.MemberVO;
 

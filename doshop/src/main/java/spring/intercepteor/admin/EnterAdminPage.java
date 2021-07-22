@@ -8,7 +8,7 @@ import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Component;
 import org.springframework.web.servlet.HandlerInterceptor;
 
-import member.signin.SigninSession;
+import session.SigninSession;
 
 public class EnterAdminPage implements HandlerInterceptor{
 	ConditionForAdminEntry conditionForAdminEntry;

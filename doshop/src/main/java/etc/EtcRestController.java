@@ -11,7 +11,7 @@ import org.springframework.web.bind.annotation.RestController;
 
 import admin.AdminService;
 import database.vo.CategoryVO;
-import member.signin.SigninSession;
+import session.SigninSession;
 
 @RestController
 public class EtcRestController {

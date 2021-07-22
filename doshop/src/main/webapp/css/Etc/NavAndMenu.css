@@ -107,6 +107,8 @@
 	border-bottom: solid 1px rgb(141, 154, 226);
 	outline: none;
 	cursor: pointer;
+	text-align: center;
+	text-decoration: none;
 }
 
 .nav_and_menu .member_menu:hover{

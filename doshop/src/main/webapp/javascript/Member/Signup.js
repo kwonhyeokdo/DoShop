@@ -9,7 +9,7 @@ var Validity = {
     sex : false,
     birth : false,
     phone : false,
-    address : false
+    address : false,
 };
 var authenticationTime;
 var timer;
@@ -73,11 +73,7 @@ window.onload = function(){
 	document.querySelector('#input_detail_address').addEventListener('input', addressCheck);
 	document.querySelector('#input_extra_address').addEventListener('input', addressCheck);
 	document.querySelector('#button_completion').addEventListener('click', complete);
-	
-	if(errorMessage !== undefined){
-		alert(errorMessage);
-	}
-	
+		
 	emailCheck();
 	passwordCheck();
 	passwordConfirmCheck();
@@ -325,7 +321,8 @@ function sendAuthenticationNumber(){
 		dataType: "text",
 		async:true
 	}).done(function(data){
-		if(data === "true"){
+		if(data !== "false"){
+			$('input[name=authenticationCode]').val(data);
 			changeMessage(PHONE_MESSAGE, PHONE_SUCCESS_MESSAGE, "blue");
 			clearInterval(timer);
 			authenticationTime = 0;
@@ -335,6 +332,7 @@ function sendAuthenticationNumber(){
 			Validity.phone = true;
 		}else{
 			changeMessage(PHONE_MESSAGE, PHONE_FAILURE_MESSAGE4, "red");
+			$('input[name=authenticationCode]').val("");
 		}
 	}).fail(function(){
 		alert("[서버 에러]\n관리자에게 문의해주세요!");
@@ -497,6 +495,9 @@ function complete(){
 		const POSTCODE = document.querySelector('#input_postcode');
         changeMessage(ADDRESS_MESSAGE, ADDRESS_FAILURE_MESSAGE, "red");
 		POSTCODE.scrollIntoView(true);
+		return;
+	}else if($('input[name=authenticationCode]').val().length === 0){
+		alert('인증에 문제가 발생했습니다. 휴대전화 인증을 다시해주세요');
 		return;
 	}
 	

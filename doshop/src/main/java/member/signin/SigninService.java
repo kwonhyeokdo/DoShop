@@ -3,13 +3,13 @@ package member.signin;
 import javax.servlet.http.Cookie;
 
 import org.springframework.beans.factory.annotation.Autowired;
-import org.springframework.security.crypto.bcrypt.BCryptPasswordEncoder;
 import org.springframework.stereotype.Service;
 
 import database.dao.MemberDAO;
 import database.vo.MemberVO;
 import etc.SimpleContextUtil;
-import etc.aes.AES256;
+import etc.SimpleCrypt;
+import session.SigninSession;
 
 @Service
 public class SigninService {
@@ -21,8 +21,7 @@ public class SigninService {
 	}
 	
 	private boolean checkPassword(String inputPassword, String registeredPassword) {
-		BCryptPasswordEncoder encoder = new BCryptPasswordEncoder(10);
-		return encoder.matches(inputPassword, registeredPassword);
+		return SimpleCrypt.bCryptMatch(inputPassword, registeredPassword);
 	}
 	
 	private void createSigninSession(MemberVO memberVO){
@@ -47,26 +46,20 @@ public class SigninService {
 	}
 	
 	public boolean signinWithCrypt(String cryptEmail, String cryptPassword) {
-		try {
-			MemberVO memberVO = memberDAO.selectByEmail(AES256.decrypt(cryptEmail));
-			if (memberVO == null || !checkEmail(AES256.decrypt(cryptEmail), memberVO.getEmail()) ||
-				!cryptPassword.equals(memberVO.getPassword())) {
-				return false;
-			}
-			signout();
-			createSigninSession(memberVO);
-			
-			return true;
-		}
-		catch(Exception e) {
-			e.printStackTrace();
+		MemberVO memberVO = memberDAO.selectByEmail(SimpleCrypt.aes256decrypt(cryptPassword));
+		if (memberVO == null || !checkEmail(SimpleCrypt.aes256decrypt(cryptPassword), memberVO.getEmail()) ||
+			!cryptPassword.equals(memberVO.getPassword())) {
 			return false;
 		}
+		signout();
+		createSigninSession(memberVO);
+		
+		return true;
 	}
 
 	public void useRememberEmailCookie(String inputEmail) {
 		try {
-			SimpleContextUtil.createCookie("rememberEmail", AES256.encrypt(inputEmail), 24*60*60, "/");
+			SimpleContextUtil.createCookie("rememberEmail", SimpleCrypt.aes256encrypt(inputEmail), 24*60*60, "/");
 		} catch (Exception e) {
 			e.printStackTrace();
 		}
@@ -77,14 +70,10 @@ public class SigninService {
 	}
 
 	public void useAutoSigninCookie(String inputEmail, String inputPassword) {
-		try {
-			SimpleContextUtil.createCookie("autoSignin", "true", 24*60*60, "/");
-			MemberVO memberVO = memberDAO.selectByEmail(inputEmail);
-			SimpleContextUtil.createCookie("autoSigninEmail", AES256.encrypt(inputEmail), 24*60*60, "/");
-			SimpleContextUtil.createCookie("autoSigninPassword", memberVO.getPassword(), 24*60*60, "/");
-		} catch (Exception e) {
-			e.printStackTrace();
-		}
+		SimpleContextUtil.createCookie("autoSignin", "true", 24*60*60, "/");
+		MemberVO memberVO = memberDAO.selectByEmail(inputEmail);
+		SimpleContextUtil.createCookie("autoSigninEmail", SimpleCrypt.aes256encrypt(inputPassword), 24*60*60, "/");
+		SimpleContextUtil.createCookie("autoSigninPassword", memberVO.getPassword(), 24*60*60, "/");
 	}
 	
 	public void DoNotUseAutoSigninCookie() {

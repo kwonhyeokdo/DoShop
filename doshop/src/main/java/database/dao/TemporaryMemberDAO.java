@@ -9,11 +9,11 @@ import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.beans.factory.annotation.Qualifier;
 import org.springframework.jdbc.core.JdbcTemplate;
 import org.springframework.jdbc.core.RowMapper;
-import org.springframework.security.crypto.bcrypt.BCryptPasswordEncoder;
 import org.springframework.stereotype.Component;
 import org.springframework.stereotype.Repository;
 
 import database.vo.TemporaryMemberVO;
+import etc.SimpleCrypt;
 import member.MailAuthenticationService;
 
 @Repository
@@ -28,8 +28,7 @@ public class TemporaryMemberDAO {
 	
 	public void insert(TemporaryMemberVO temporaryMemberVO) {
 		String sql = "insert into temporary_member (email, password, name, sex, birthday, phone_number, postcode, address, detail_address, extra_address, registration_time) values (?,?,?,?,?,?,?,?,?,?,?)";
-		BCryptPasswordEncoder encoder = new BCryptPasswordEncoder(10);
-		String encoderPassword = encoder.encode(temporaryMemberVO.getPassword());
+		String encoderPassword = SimpleCrypt.bCryptEncode(temporaryMemberVO.getPassword());
 		jdbcTemplate.update(
 			sql,
 			temporaryMemberVO.getEmail(), encoderPassword, temporaryMemberVO.getName(),

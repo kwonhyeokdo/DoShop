@@ -1,6 +1,6 @@
 var AuthenticationTime;
 var Timer;
-
+var PageAuthCode = "";
 $(document).ready(function(){
 	$('#button_phone_authority').click(function(){
 		$('#choice_box').css('display', 'none');
@@ -101,10 +101,11 @@ function checkAuthorityNumber(authorityNumber, inputEmail){
 		method: "post",
 		async: false
 	}).done(function(data){
-		if(data === true){
-			goToChangePassword(inputEmail);
-		}else{
+		if(data === "false"){
 			alert('맞지 않은 인증번호입니다!');
+		}else{
+			PageAuthCode = data;
+			goToChangePassword(inputEmail);
 		}
 	}).fail(function(){
 		alert('서버오류');
@@ -121,10 +122,11 @@ function checkAuthorityEmailCode(authenticationCode, inputEmail){
 		method: "post",
 		async: false
 	}).done(function(data){
-		if(data === true){
-			goToChangePassword(inputEmail);
+		if(data === "false"){
+			alert('맞지 않은 인증번호입니다!');
 		}else{
-			alert('맞지 않은 인증코드입니다!');
+			PageAuthCode = data;
+			goToChangePassword(inputEmail);
 		}
 	}).fail(function(){
 		alert('서버오류');
@@ -149,6 +151,10 @@ function goToChangePassword(inputEmail){
 	hidden.setAttribute("name", "inputEmail");
 	hidden.setAttribute("value", inputEmail);
 	form.appendChild(hidden);
+	let hidden2 = document.createElement("input");
+	hidden2.setAttribute("name", "pageAuthCode");
+	hidden2.setAttribute("value", PageAuthCode);
+	form.appendChild(hidden2);
 
 	document.body.appendChild(form);
 	form.submit();

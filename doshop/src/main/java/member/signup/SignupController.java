@@ -1,6 +1,7 @@
 package member.signup;
 
 import java.util.ArrayList;
+import java.util.HashMap;
 
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Controller;
@@ -13,6 +14,7 @@ import org.springframework.web.bind.annotation.RequestParam;
 import org.springframework.web.servlet.mvc.support.RedirectAttributes;
 
 import database.vo.TemporaryMemberVO;
+import etc.SimpleContextUtil;
 import member.AuthenticationLevel;
 import member.MailAuthenticationService;
 import member.MemberService;
@@ -49,11 +51,14 @@ public class SignupController {
 	@PostMapping("/RegistTemporaryMember")
 	public String postRegistTemporaryMember(
 		RedirectAttributes redirectAttributes,
-		TemporaryMemberVO temporaryMemberVO)
+		TemporaryMemberVO temporaryMemberVO,
+		@RequestParam(value="authenticationCode")String authenticationCode 
+	)
 	{
-		ArrayList<String> errorList = temporaryMemberService.checkErrorTemporaryMemberVO(temporaryMemberVO);
-		if(!errorList.isEmpty()) {
-			redirectAttributes.addFlashAttribute("errorList", errorList);
+		HashMap<String, String> authSession = (HashMap<String, String>)SimpleContextUtil.getAttributeFromSession("authenticationSession");
+		String authCode = authSession.get(AuthenticationLevel.SIGNUP.name());
+		if(!authCode.equals(authenticationCode) || !temporaryMemberService.checkErrorTemporaryMemberVO(temporaryMemberVO)) {
+			redirectAttributes.addFlashAttribute("errorList", "인증 정보가 옳바르지 않습니다. 회원가입을 다시 시도해주세요.");
 			redirectAttributes.addFlashAttribute("temporaryMemberVO", temporaryMemberVO);
 			return "redirect:" + viewPath + "/";
 		}else {

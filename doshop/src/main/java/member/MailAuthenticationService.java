@@ -14,6 +14,7 @@ import database.dao.MailAuthenticationDAO;
 import database.dao.TemporaryMemberDAO;
 import database.vo.MailAuthenticationVO;
 import etc.SimpleFile;
+import etc.SimpleUtil;
 import mail.MailService;
 import member.MemberService;
 
@@ -32,17 +33,14 @@ public class MailAuthenticationService {
 	@Autowired
 	MailService mailService;
 
-	private String createAuthenticationToken() {
-		String generatedString = RandomStringUtils.randomAlphanumeric(10);
-		return generatedString;
-	}
+
 	
 	private Timestamp createAuthenticationTime() {
 		return new Timestamp(System.currentTimeMillis());
 	}
 	
 	public void registAuthentication(String email, String authenticationLevel) {
-		String token = createAuthenticationToken();
+		String token = SimpleUtil.createAuthenticationCode();
 		LocalDateTime clostingTime = LocalDateTime.now().plusHours(AUTHENTICATION_TIME_SEC / 3600);
 		String title = "";
 		String url = "";

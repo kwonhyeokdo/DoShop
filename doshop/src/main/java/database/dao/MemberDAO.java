@@ -69,7 +69,7 @@ public class MemberDAO {
 		return memberList.isEmpty() ? null : memberList.get(0);
 	}
 	
-	public MemberVO selectMemberVOByMemberNumber(int memberNumber) {
+	public List<MemberVO> selectByMemberNumber(int memberNumber) {
 		String sql = "select * from member where member_number = ?";
 		List<MemberVO> memberList = jdbcTemplate.query(sql, 
 			new RowMapper<MemberVO>() {
@@ -96,7 +96,7 @@ public class MemberDAO {
 			memberNumber
 		);
 		
-		return memberList.isEmpty() ? null : memberList.get(0);
+		return memberList;
 	}
 	
 	public int selectCountByAuthority(int authority) {
@@ -151,5 +151,11 @@ public class MemberDAO {
 	public void updateAuthorityByEmail(String email, int authority) {
 		String sql = "UPDATE member SET authority=? WHERE email=?";
 		jdbcTemplate.update(sql, authority, email);
+	}
+	
+	public boolean updatePasswordByEmail(String email, String password) {
+		String sql = "UPDATE member SET password=? WHERE email=?";
+		int count = jdbcTemplate.update(sql, password, email);
+		return (count == 1) ? true : false;
 	}
 }

@@ -11,7 +11,7 @@ import org.springframework.web.servlet.HandlerInterceptor;
 
 import etc.SimpleContextUtil;
 import member.signin.SigninService;
-import member.signin.SigninSession;
+import session.SigninSession;
 
 @Component
 public class AutoSignin implements HandlerInterceptor {

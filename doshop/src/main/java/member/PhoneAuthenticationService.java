@@ -9,6 +9,7 @@ import org.springframework.stereotype.Service;
 
 import database.dao.PhoneAuthenticationDAO;
 import database.vo.PhoneAuthenticationVO;
+import etc.SimpleUtil;
 
 @Service
 public class PhoneAuthenticationService {
@@ -16,14 +17,6 @@ public class PhoneAuthenticationService {
 	
 	@Autowired
 	private PhoneAuthenticationDAO phoneAuthenticationDAO;
-
-	private String createAuthenticationNumber() {
-		final int MAX = 999999;
-		final int MIN = 100000;
-		String authenticationNumber = "" + (int)((Math.random() * (MAX - MIN)) + MIN);
-				
-		return authenticationNumber;
-	}
 	
 	private Timestamp createAuthenticationTime() {
 		return new Timestamp(System.currentTimeMillis());
@@ -32,7 +25,7 @@ public class PhoneAuthenticationService {
 	public void registPhoneAuthentication(String phoneNumber, String place) {
 		Timestamp authenticationTime = createAuthenticationTime();
 		
-		String authenticationNumber = createAuthenticationNumber();
+		String authenticationNumber = SimpleUtil.createAuthenticationNumber();
 /*
 		// 문자 발송 API //
 		String api_key = "NCSAPJYPS4YQ6J62";
