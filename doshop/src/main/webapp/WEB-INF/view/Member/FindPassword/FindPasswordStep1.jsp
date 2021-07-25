@@ -5,7 +5,7 @@
 <head>
 <meta charset="UTF-8">
 <title>비밀번호 찾기</title>
-<link rel="stylesheet" type="text/css" href="/DoShop/css/Member/FindPasswordStep1.css">
+<link rel="stylesheet" type="text/css" href="/DoShop/css/Member/FindPassword/FindPasswordStep1.css">
 </head>
 <body>
 	<%@ include file="/WEB-INF/view/Etc/NavAndMenu.jsp" %>

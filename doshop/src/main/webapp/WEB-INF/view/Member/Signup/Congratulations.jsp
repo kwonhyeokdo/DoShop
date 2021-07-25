@@ -7,7 +7,7 @@
     <meta http-equiv="X-UA-Compatible" content="IE=edge">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <title>회원가입 완료</title>
-    <link rel="stylesheet" type="text/css" href="/DoShop/css/Member/Congratulations.css">
+    <link rel="stylesheet" type="text/css" href="/DoShop/css/Member/Signup/Congratulations.css">
 </head>
 <body>
     <%@ include file="/WEB-INF/view/Etc/NavAndMenu.jsp" %>

@@ -1,8 +1,11 @@
 package spring;
 
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.context.annotation.Bean;
 import org.springframework.context.annotation.ComponentScan;
 import org.springframework.context.annotation.Configuration;
+import org.springframework.web.multipart.MultipartResolver;
+import org.springframework.web.multipart.commons.CommonsMultipartResolver;
 import org.springframework.web.servlet.config.annotation.CorsRegistry;
 import org.springframework.web.servlet.config.annotation.DefaultServletHandlerConfigurer;
 import org.springframework.web.servlet.config.annotation.EnableWebMvc;
@@ -30,6 +33,16 @@ public class WebMvcConfig implements WebMvcConfigurer{
 		registry.jsp("/WEB-INF/view/", ".jsp");
 	}
 	
+	@Bean
+    public MultipartResolver multipartResolver() {
+		final int MAX_SIZE = 10 * 1024 * 1024;
+		CommonsMultipartResolver multipartResolver = new CommonsMultipartResolver();
+		multipartResolver.setMaxUploadSize(MAX_SIZE); // 10MB
+		multipartResolver.setMaxUploadSizePerFile(MAX_SIZE); // 10MB
+		multipartResolver.setMaxInMemorySize(0);
+      return multipartResolver;
+    }
+	
 
 	@Override
 	public void addCorsMappings(CorsRegistry registry) {
@@ -45,7 +58,7 @@ public class WebMvcConfig implements WebMvcConfigurer{
 		registry.addInterceptor(interceptorFactory.getAutoSignin()).addPathPatterns("/**");
 		
 		/* 로그인이 필요한 사이트 */
-		registry.addInterceptor(interceptorFactory.getRequiredSignin()).addPathPatterns("/Member/Information/**");
+		registry.addInterceptor(interceptorFactory.getRequiredSignin()).addPathPatterns("/Member/UpdateInformation/**");
 		
 		/* Authentication 없으면 생성 */
 		registry.addInterceptor(interceptorFactory.getAuthenticationSessionCreator()).addPathPatterns("/**");

@@ -5,7 +5,7 @@
 <head>
 <meta charset="UTF-8">
 <title>비밀번호 찾기</title>
-<link rel="stylesheet" type="text/css" href="/DoShop/css/Member/FindPasswordStep2.css">
+<link rel="stylesheet" type="text/css" href="/DoShop/css/Member/FindPassword/FindPasswordStep2.css">
 <script src="https://ajax.googleapis.com/ajax/libs/jquery/3.3.1/jquery.min.js"></script>
 </head>
 <body>
@@ -42,6 +42,6 @@
 		</div>
 	</main>
 	<%@ include file="/WEB-INF/view/Etc/Footer.jsp" %>
-	<script src="/DoShop/javascript/Member/FindPasswordStep2.js"></script>
+	<script src="/DoShop/javascript/Member/FindPassword/FindPasswordStep2.js"></script>
 </body>
 </html>

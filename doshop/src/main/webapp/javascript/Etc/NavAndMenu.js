@@ -18,7 +18,7 @@ $(document).ready(function(){
 		tag += '<button class="member_menu">주문/배송</button>';
 		tag += '<button class="member_menu">장바구니</button>';
 		//tag += '<button class="member_menu" onclick="goToMemberInformation()">회원정보</button>';
-		tag += '<a class="member_menu" href="/DoShop/Member/Information/CheckMember">회원정보/수정</a>';
+		tag += '<a class="member_menu" href="/DoShop/Member/UpdateInformation/CheckPassword">회원정보/수정</a>';
 		tag += '<button onclick="signout()" class="member_menu">로그아웃</button>';
 		tag += '</div>';
 		$('.nav_and_menu #sign').append(tag);

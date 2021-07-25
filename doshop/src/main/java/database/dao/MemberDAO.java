@@ -158,4 +158,58 @@ public class MemberDAO {
 		int count = jdbcTemplate.update(sql, password, email);
 		return (count == 1) ? true : false;
 	}
+	
+	public boolean updatePasswordByMemberNumber(int memberNumber, String password) {
+		String sql = "UPDATE member SET password=? WHERE member_number=?";
+		int count = jdbcTemplate.update(sql, password, memberNumber);
+		return (count == 1) ? true : false;
+	}
+	
+	public boolean updateNameByMemberNumber(int memberNumber, String name) {
+		String sql = "UPDATE member SET name=? WHERE member_number=?";
+		int count = jdbcTemplate.update(sql, name, memberNumber);
+		return (count == 1) ? true : false;
+	}
+	
+	public boolean updateBirthdayByMemberNumber(int memberNumber, String birthday) {
+		String sql = "UPDATE member SET birthday=? WHERE member_number=?";
+		int count = jdbcTemplate.update(sql, birthday, memberNumber);
+		return (count == 1) ? true : false;
+	}
+	
+	public boolean updateSexByMemberNumber(int memberNumber, String sex) {
+		String sql = "UPDATE member SET sex=? WHERE member_number=?";
+		int count = jdbcTemplate.update(sql, sex, memberNumber);
+		return (count == 1) ? true : false;
+	}
+	
+	public boolean updatePhoneNumberByMemberNumber(int memberNumber, String phoneNumber) {
+		String sql = "UPDATE member SET phone_number=? WHERE member_number=?";
+		int count = jdbcTemplate.update(sql, phoneNumber, memberNumber);
+		return (count == 1) ? true : false;
+	}
+	
+	public boolean updatePostcodeByMemberNumber(int memberNumber, String postcode) {
+		String sql = "UPDATE member SET postcode=? WHERE member_number=?";
+		int count = jdbcTemplate.update(sql, postcode, memberNumber);
+		return (count == 1) ? true : false;
+	}
+	
+	public boolean updateAddressByMemberNumber(int memberNumber, String address) {
+		String sql = "UPDATE member SET address=? WHERE member_number=?";
+		int count = jdbcTemplate.update(sql, address, memberNumber);
+		return (count == 1) ? true : false;
+	}
+	
+	public boolean updateDetailAddressByMemberNumber(int memberNumber, String detailAddress) {
+		String sql = "UPDATE member SET detail_address=? WHERE member_number=?";
+		int count = jdbcTemplate.update(sql, detailAddress, memberNumber);
+		return (count == 1) ? true : false;
+	}
+	
+	public boolean updateExtraAddressByMemberNumber(int memberNumber, String extraAddress) {
+		String sql = "UPDATE member SET extra_address=? WHERE member_number=?";
+		int count = jdbcTemplate.update(sql, extraAddress, memberNumber);
+		return (count == 1) ? true : false;
+	}
 }

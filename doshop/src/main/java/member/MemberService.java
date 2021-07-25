@@ -7,6 +7,8 @@ import java.util.regex.Pattern;
 import org.apache.struts.chain.commands.servlet.CreateAction;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
+import org.springframework.transaction.annotation.Transactional;
+import org.springframework.transaction.interceptor.TransactionAspectSupport;
 
 import database.dao.MemberDAO;
 import database.dao.TemporaryMemberDAO;
@@ -162,5 +164,56 @@ public class MemberService {
 	public MemberVO getMemberVO(int memberNumber) {
 		List<MemberVO> memberVOList = memberDAO.selectByMemberNumber(memberNumber);
 		return memberVOList.isEmpty() ? null : memberVOList.get(0);
+	}
+	
+	@Transactional
+	public boolean updateMemberVO(MemberVO memberVO) {
+		int memberNumber = memberVO.getMemberNumber();
+		String password = memberVO.getPassword();
+		String name = memberVO.getName();
+		String birthday = memberVO.getBirthday();
+		String sex = memberVO.getSex();
+		String phoneNumber = memberVO.getPhoneNumber();
+		String postcode = memberVO.getPostcode();
+		String address = memberVO.getAddress();
+		String detailAddress = memberVO.getDetailAddress();
+		String extraAddress = memberVO.getExtraAddress();
+		
+		if(password != null && !checkPasswordReg(password)) {
+			return false;
+		}else if(!checkNameReg(name)) {
+			return false;
+		}else if(!checkBirthdayReg(birthday)) {
+			return false;
+		}else if(!checkSexReg(sex)) {
+			return false;
+		}else if(!checkPhoneNumberReg(phoneNumber)) {
+			return false;
+		}else if(!checkPostcodeReg(postcode)) {
+			return false;
+		}else if(!checkAddressReg(address)) {
+			return false;
+		}else if(!checkDetailAddressReg(detailAddress)) {
+			return false;
+		}
+		
+		if(password != null) {
+			memberDAO.updatePasswordByMemberNumber(memberNumber, SimpleCrypt.bCryptEncode(password));
+		}
+		try {
+			memberDAO.updateNameByMemberNumber(memberNumber, name);
+			memberDAO.updateBirthdayByMemberNumber(memberNumber, birthday);
+			memberDAO.updateSexByMemberNumber(memberNumber, sex);
+			memberDAO.updatePhoneNumberByMemberNumber(memberNumber, phoneNumber);
+			memberDAO.updatePostcodeByMemberNumber(memberNumber, postcode);
+			memberDAO.updateAddressByMemberNumber(memberNumber, address);
+			memberDAO.updateDetailAddressByMemberNumber(memberNumber, detailAddress);
+			memberDAO.updateExtraAddressByMemberNumber(memberNumber, extraAddress);
+		}catch(Exception e) {
+			TransactionAspectSupport.currentTransactionStatus().setRollbackOnly();
+			System.out.println("DB 적용 오류");
+			return false;
+		}
+		return true;
 	}
 }

@@ -3,7 +3,7 @@ package database.vo;
 import java.sql.Timestamp;
 
 public class MemberVO {
-	private int member_number;
+	private int memberNumber;
 	private String email;
 	private String password;
 	private String name;
@@ -22,10 +22,10 @@ public class MemberVO {
 	}
 	
 	public int getMemberNumber() {
-		return member_number;
+		return memberNumber;
 	}
-	public void setMemberNumber(int member_number) {
-		this.member_number = member_number;
+	public void setMemberNumber(int memberNumber) {
+		this.memberNumber = memberNumber;
 	}
 	public String getEmail() {
 		return email;
@@ -100,5 +100,21 @@ public class MemberVO {
 	}
 	public void setRegistrationTime(Timestamp registrationTime) {
 		this.registrationTime = registrationTime;
+	}
+	
+	public void print() {
+		System.out.println("memberNumber: " + memberNumber);
+		System.out.println("authority: " + authority);
+		System.out.println("email: " + email);
+		System.out.println("password: " + password);
+		System.out.println("name: " + name);
+		System.out.println("sex: " + sex);
+		System.out.println("birthday: " + birthday);
+		System.out.println("phoneNumber: " + phoneNumber);
+		System.out.println("postcode: " + postcode);
+		System.out.println("address: " + address);
+		System.out.println("detailAddress: " + detailAddress);
+		System.out.println("extraAddress: " + extraAddress);
+		System.out.println("registration: " + registrationTime);
 	}
 }
